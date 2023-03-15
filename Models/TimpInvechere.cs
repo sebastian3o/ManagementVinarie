@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace ManagementVinarie.Models
 {
-    internal class TimpInvechere
+    public class TimpInvechere
     {
+        public int TimpInvechireId { get; set; }  
+
+        public string TimpInvechireDenumire { get; set; }
+
+
     }
 }
