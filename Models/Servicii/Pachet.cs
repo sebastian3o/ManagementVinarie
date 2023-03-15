@@ -17,5 +17,7 @@ namespace ManagementVinarie.Models.Servicii
         [Column(TypeName = "ntext")]
         public string Descriere { get; set; }
 
+        public SalaDegustare SalaDegustare { get; set; }
+
     }
 }
