@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManagementVinarie.Models
+namespace ManagementVinarie.Models.Vin
 {
     public class TimpInvechere
     {
