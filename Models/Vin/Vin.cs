@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace ManagementVinarie.Models.Vin
 {
     public class Vin
     {
+        [Key]
         public int VinId { set; get; }
         public string VinDenumire { set; get; }
         public int Cantitate { set; get; }

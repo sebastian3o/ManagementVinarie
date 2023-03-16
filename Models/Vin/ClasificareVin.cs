@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace ManagementVinarie.Models.Vin
 {
     public class ClasificareVin
     {
+        [Key]
         public int ClasificareVinId { set; get; }
 
         public Culoare Culoare { set; get; }
@@ -15,7 +17,7 @@ namespace ManagementVinarie.Models.Vin
     
         public CantitateZahar CantitateZahar { set; get; }
 
-        public TimpInvechere TimpInvechere { set; get; }
+        public TimpInvechire TimpInvechere { set; get; }
     }
 
 }
