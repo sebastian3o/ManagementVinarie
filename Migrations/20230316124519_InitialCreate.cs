@@ -1,0 +1,286 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace ManagementVinarie.Migrations
+{
+    /// <inheritdoc />
+    public partial class InitialCreate : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "CantitatiZahar",
+                columns: table => new
+                {
+                    CantitateZaharId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CantitateZaharDenumire = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CantitatiZahar", x => x.CantitateZaharId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Clienti",
+                columns: table => new
+                {
+                    ClientId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nume = table.Column<string>(type: "TEXT", nullable: false),
+                    Prenume = table.Column<string>(type: "TEXT", nullable: false),
+                    DataNasterii = table.Column<DateOnly>(type: "TEXT", nullable: false),
+                    Gen = table.Column<string>(type: "TEXT", nullable: false),
+                    Telefon = table.Column<string>(type: "TEXT", nullable: false),
+                    Email = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clienti", x => x.ClientId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Culori",
+                columns: table => new
+                {
+                    CuloareId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CuloareDenumire = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Culori", x => x.CuloareId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MaturitateStruguri",
+                columns: table => new
+                {
+                    MaturitateStruguriId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    MaturitateStruguriNume = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MaturitateStruguri", x => x.MaturitateStruguriId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SaliDegustare",
+                columns: table => new
+                {
+                    SalaDegustareId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    SalaDegustareDenumire = table.Column<string>(type: "TEXT", nullable: false),
+                    SalaDegustareDescriere = table.Column<string>(type: "ntext", nullable: false),
+                    Foto = table.Column<byte[]>(type: "BLOB", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SaliDegustare", x => x.SalaDegustareId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TimpuriInvechire",
+                columns: table => new
+                {
+                    TimpInvechireId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TimpInvechireDenumire = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TimpuriInvechire", x => x.TimpInvechireId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pachete",
+                columns: table => new
+                {
+                    PachetId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    PachetDenumire = table.Column<string>(type: "TEXT", nullable: false),
+                    DurataInOre = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Pret = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Descriere = table.Column<string>(type: "ntext", nullable: false),
+                    SalaDegustareId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pachete", x => x.PachetId);
+                    table.ForeignKey(
+                        name: "FK_Pachete_SaliDegustare_SalaDegustareId",
+                        column: x => x.SalaDegustareId,
+                        principalTable: "SaliDegustare",
+                        principalColumn: "SalaDegustareId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClasificariVin",
+                columns: table => new
+                {
+                    ClasificareVinId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CuloareId = table.Column<int>(type: "INTEGER", nullable: false),
+                    MaturitateStruguriId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CantitateZaharId = table.Column<int>(type: "INTEGER", nullable: false),
+                    TimpInvechereTimpInvechireId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClasificariVin", x => x.ClasificareVinId);
+                    table.ForeignKey(
+                        name: "FK_ClasificariVin_CantitatiZahar_CantitateZaharId",
+                        column: x => x.CantitateZaharId,
+                        principalTable: "CantitatiZahar",
+                        principalColumn: "CantitateZaharId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClasificariVin_Culori_CuloareId",
+                        column: x => x.CuloareId,
+                        principalTable: "Culori",
+                        principalColumn: "CuloareId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClasificariVin_MaturitateStruguri_MaturitateStruguriId",
+                        column: x => x.MaturitateStruguriId,
+                        principalTable: "MaturitateStruguri",
+                        principalColumn: "MaturitateStruguriId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClasificariVin_TimpuriInvechire_TimpInvechereTimpInvechireId",
+                        column: x => x.TimpInvechereTimpInvechireId,
+                        principalTable: "TimpuriInvechire",
+                        principalColumn: "TimpInvechireId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Rezervari",
+                columns: table => new
+                {
+                    RezervareId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    DataOraRezervare = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    PachetId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ClientId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rezervari", x => x.RezervareId);
+                    table.ForeignKey(
+                        name: "FK_Rezervari_Clienti_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clienti",
+                        principalColumn: "ClientId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Rezervari_Pachete_PachetId",
+                        column: x => x.PachetId,
+                        principalTable: "Pachete",
+                        principalColumn: "PachetId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Vinuri",
+                columns: table => new
+                {
+                    VinId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    VinDenumire = table.Column<string>(type: "TEXT", nullable: false),
+                    Cantitate = table.Column<int>(type: "INTEGER", nullable: false),
+                    Descriere = table.Column<string>(type: "ntext", nullable: false),
+                    ClasificareVinId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vinuri", x => x.VinId);
+                    table.ForeignKey(
+                        name: "FK_Vinuri_ClasificariVin_ClasificareVinId",
+                        column: x => x.ClasificareVinId,
+                        principalTable: "ClasificariVin",
+                        principalColumn: "ClasificareVinId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClasificariVin_CantitateZaharId",
+                table: "ClasificariVin",
+                column: "CantitateZaharId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClasificariVin_CuloareId",
+                table: "ClasificariVin",
+                column: "CuloareId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClasificariVin_MaturitateStruguriId",
+                table: "ClasificariVin",
+                column: "MaturitateStruguriId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClasificariVin_TimpInvechereTimpInvechireId",
+                table: "ClasificariVin",
+                column: "TimpInvechereTimpInvechireId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pachete_SalaDegustareId",
+                table: "Pachete",
+                column: "SalaDegustareId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rezervari_ClientId",
+                table: "Rezervari",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Rezervari_PachetId",
+                table: "Rezervari",
+                column: "PachetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vinuri_ClasificareVinId",
+                table: "Vinuri",
+                column: "ClasificareVinId");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "Rezervari");
+
+            migrationBuilder.DropTable(
+                name: "Vinuri");
+
+            migrationBuilder.DropTable(
+                name: "Clienti");
+
+            migrationBuilder.DropTable(
+                name: "Pachete");
+
+            migrationBuilder.DropTable(
+                name: "ClasificariVin");
+
+            migrationBuilder.DropTable(
+                name: "SaliDegustare");
+
+            migrationBuilder.DropTable(
+                name: "CantitatiZahar");
+
+            migrationBuilder.DropTable(
+                name: "Culori");
+
+            migrationBuilder.DropTable(
+                name: "MaturitateStruguri");
+
+            migrationBuilder.DropTable(
+                name: "TimpuriInvechire");
+        }
+    }
+}
