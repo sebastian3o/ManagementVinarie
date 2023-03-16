@@ -11,13 +11,14 @@ namespace ManagementVinarie.Models.Servicii
     public class SalaDegustare
     {
         [Key]
-        public int SalaDegustareId;
-        public string SalaDegustareDenumire;
+        public int SalaDegustareId { get; set; }
+
+        public string SalaDegustareDenumire{ get; set; }
 
         [Column(TypeName = "ntext")]
-        public string SalaDegustareDescriere;
+        public string SalaDegustareDescriere{ get; set; }
 
-        public byte[] Foto;
+        public byte[] Foto { get; set; }
 
         
 
