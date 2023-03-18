@@ -128,6 +128,21 @@ namespace ManagementVinarie.Migrations
                     b.ToTable("SaliDegustare");
                 });
 
+            modelBuilder.Entity("ManagementVinarie.Models.Vin.CalitateStruguri", b =>
+                {
+                    b.Property<int>("CalitateStruguriId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CalitateStruguriNume")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CalitateStruguriId");
+
+                    b.ToTable("CalitatiStruguri");
+                });
+
             modelBuilder.Entity("ManagementVinarie.Models.Vin.CantitateZahar", b =>
                 {
                     b.Property<int>("CantitateZaharId")
@@ -149,29 +164,44 @@ namespace ManagementVinarie.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("CalitateStruguriId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("CantitateZaharId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ContinutAlcoolId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("CuloareId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("MaturitateStruguriId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TimpInvechereTimpInvechireId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("ClasificareVinId");
+
+                    b.HasIndex("CalitateStruguriId");
 
                     b.HasIndex("CantitateZaharId");
 
+                    b.HasIndex("ContinutAlcoolId");
+
                     b.HasIndex("CuloareId");
 
-                    b.HasIndex("MaturitateStruguriId");
-
-                    b.HasIndex("TimpInvechereTimpInvechireId");
-
                     b.ToTable("ClasificariVin");
+                });
+
+            modelBuilder.Entity("ManagementVinarie.Models.Vin.ContinutAlcool", b =>
+                {
+                    b.Property<int>("ContinutAlcoolId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ContinutAlcoolDenumire")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ContinutAlcoolId");
+
+                    b.ToTable("ContinuturiAlcool");
                 });
 
             modelBuilder.Entity("ManagementVinarie.Models.Vin.Culoare", b =>
@@ -187,36 +217,6 @@ namespace ManagementVinarie.Migrations
                     b.HasKey("CuloareId");
 
                     b.ToTable("Culori");
-                });
-
-            modelBuilder.Entity("ManagementVinarie.Models.Vin.MaturitateStruguri", b =>
-                {
-                    b.Property<int>("MaturitateStruguriId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("MaturitateStruguriNume")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("MaturitateStruguriId");
-
-                    b.ToTable("MaturitateStruguri");
-                });
-
-            modelBuilder.Entity("ManagementVinarie.Models.Vin.TimpInvechire", b =>
-                {
-                    b.Property<int>("TimpInvechireId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("TimpInvechireDenumire")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("TimpInvechireId");
-
-                    b.ToTable("TimpuriInvechire");
                 });
 
             modelBuilder.Entity("ManagementVinarie.Models.Vin.Vin", b =>
@@ -278,9 +278,21 @@ namespace ManagementVinarie.Migrations
 
             modelBuilder.Entity("ManagementVinarie.Models.Vin.ClasificareVin", b =>
                 {
+                    b.HasOne("ManagementVinarie.Models.Vin.CalitateStruguri", "CalitateStruguri")
+                        .WithMany()
+                        .HasForeignKey("CalitateStruguriId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ManagementVinarie.Models.Vin.CantitateZahar", "CantitateZahar")
                         .WithMany()
                         .HasForeignKey("CantitateZaharId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ManagementVinarie.Models.Vin.ContinutAlcool", "ContinutAlcool")
+                        .WithMany()
+                        .HasForeignKey("ContinutAlcoolId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -290,25 +302,13 @@ namespace ManagementVinarie.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ManagementVinarie.Models.Vin.MaturitateStruguri", "MaturitateStruguri")
-                        .WithMany()
-                        .HasForeignKey("MaturitateStruguriId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ManagementVinarie.Models.Vin.TimpInvechire", "TimpInvechere")
-                        .WithMany()
-                        .HasForeignKey("TimpInvechereTimpInvechireId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("CalitateStruguri");
 
                     b.Navigation("CantitateZahar");
 
+                    b.Navigation("ContinutAlcool");
+
                     b.Navigation("Culoare");
-
-                    b.Navigation("MaturitateStruguri");
-
-                    b.Navigation("TimpInvechere");
                 });
 
             modelBuilder.Entity("ManagementVinarie.Models.Vin.Vin", b =>

@@ -17,8 +17,8 @@ namespace ManagementVinarie.Data
         public DbSet<Models.Vin.CantitateZahar> CantitatiZahar { get; set; }
         public DbSet<Models.Vin.ClasificareVin> ClasificariVin { get; set; }
         public DbSet<Models.Vin.Culoare> Culori { get; set; }
-        public DbSet<Models.Vin.MaturitateStruguri> MaturitateStruguri { get; set; }
-        public DbSet<Models.Vin.TimpInvechire> TimpuriInvechire { get; set; }
+        public DbSet<Models.Vin.CalitateStruguri> CalitatiStruguri { get; set; }
+        public DbSet<Models.Vin.ContinutAlcool> ContinuturiAlcool { get; set; }
         public DbSet<Models.Vin.Vin> Vinuri { get; set; }
 
      

@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace ManagementVinarie.Models.Vin
 {
-    public class MaturitateStruguri
+    public class ContinutAlcool
     {
         [Key]
-        public int MaturitateStruguriId { set; get; }
-        public string MaturitateStruguriNume { set; get; }
+        public int ContinutAlcoolId { get; set; }  
+
+        public string ContinutAlcoolDenumire { get; set; }
+
 
     }
 }

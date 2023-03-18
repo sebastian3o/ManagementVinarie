@@ -6,11 +6,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ManagementVinarie.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class CorectareModele : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "CalitatiStruguri",
+                columns: table => new
+                {
+                    CalitateStruguriId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CalitateStruguriNume = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CalitatiStruguri", x => x.CalitateStruguriId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "CantitatiZahar",
                 columns: table => new
@@ -43,6 +56,19 @@ namespace ManagementVinarie.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ContinuturiAlcool",
+                columns: table => new
+                {
+                    ContinutAlcoolId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ContinutAlcoolDenumire = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContinuturiAlcool", x => x.ContinutAlcoolId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Culori",
                 columns: table => new
                 {
@@ -53,19 +79,6 @@ namespace ManagementVinarie.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Culori", x => x.CuloareId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MaturitateStruguri",
-                columns: table => new
-                {
-                    MaturitateStruguriId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    MaturitateStruguriNume = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MaturitateStruguri", x => x.MaturitateStruguriId);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,16 +97,43 @@ namespace ManagementVinarie.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TimpuriInvechire",
+                name: "ClasificariVin",
                 columns: table => new
                 {
-                    TimpInvechireId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ClasificareVinId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    TimpInvechireDenumire = table.Column<string>(type: "TEXT", nullable: false)
+                    CuloareId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CalitateStruguriId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CantitateZaharId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ContinutAlcoolId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TimpuriInvechire", x => x.TimpInvechireId);
+                    table.PrimaryKey("PK_ClasificariVin", x => x.ClasificareVinId);
+                    table.ForeignKey(
+                        name: "FK_ClasificariVin_CalitatiStruguri_CalitateStruguriId",
+                        column: x => x.CalitateStruguriId,
+                        principalTable: "CalitatiStruguri",
+                        principalColumn: "CalitateStruguriId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClasificariVin_CantitatiZahar_CantitateZaharId",
+                        column: x => x.CantitateZaharId,
+                        principalTable: "CantitatiZahar",
+                        principalColumn: "CantitateZaharId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClasificariVin_ContinuturiAlcool_ContinutAlcoolId",
+                        column: x => x.ContinutAlcoolId,
+                        principalTable: "ContinuturiAlcool",
+                        principalColumn: "ContinutAlcoolId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClasificariVin_Culori_CuloareId",
+                        column: x => x.CuloareId,
+                        principalTable: "Culori",
+                        principalColumn: "CuloareId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -120,42 +160,24 @@ namespace ManagementVinarie.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClasificariVin",
+                name: "Vinuri",
                 columns: table => new
                 {
-                    ClasificareVinId = table.Column<int>(type: "INTEGER", nullable: false)
+                    VinId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CuloareId = table.Column<int>(type: "INTEGER", nullable: false),
-                    MaturitateStruguriId = table.Column<int>(type: "INTEGER", nullable: false),
-                    CantitateZaharId = table.Column<int>(type: "INTEGER", nullable: false),
-                    TimpInvechereTimpInvechireId = table.Column<int>(type: "INTEGER", nullable: false)
+                    VinDenumire = table.Column<string>(type: "TEXT", nullable: false),
+                    Cantitate = table.Column<int>(type: "INTEGER", nullable: false),
+                    Descriere = table.Column<string>(type: "ntext", nullable: false),
+                    ClasificareVinId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClasificariVin", x => x.ClasificareVinId);
+                    table.PrimaryKey("PK_Vinuri", x => x.VinId);
                     table.ForeignKey(
-                        name: "FK_ClasificariVin_CantitatiZahar_CantitateZaharId",
-                        column: x => x.CantitateZaharId,
-                        principalTable: "CantitatiZahar",
-                        principalColumn: "CantitateZaharId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ClasificariVin_Culori_CuloareId",
-                        column: x => x.CuloareId,
-                        principalTable: "Culori",
-                        principalColumn: "CuloareId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ClasificariVin_MaturitateStruguri_MaturitateStruguriId",
-                        column: x => x.MaturitateStruguriId,
-                        principalTable: "MaturitateStruguri",
-                        principalColumn: "MaturitateStruguriId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ClasificariVin_TimpuriInvechire_TimpInvechereTimpInvechireId",
-                        column: x => x.TimpInvechereTimpInvechireId,
-                        principalTable: "TimpuriInvechire",
-                        principalColumn: "TimpInvechireId",
+                        name: "FK_Vinuri_ClasificariVin_ClasificareVinId",
+                        column: x => x.ClasificareVinId,
+                        principalTable: "ClasificariVin",
+                        principalColumn: "ClasificareVinId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -186,27 +208,10 @@ namespace ManagementVinarie.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Vinuri",
-                columns: table => new
-                {
-                    VinId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    VinDenumire = table.Column<string>(type: "TEXT", nullable: false),
-                    Cantitate = table.Column<int>(type: "INTEGER", nullable: false),
-                    Descriere = table.Column<string>(type: "ntext", nullable: false),
-                    ClasificareVinId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Vinuri", x => x.VinId);
-                    table.ForeignKey(
-                        name: "FK_Vinuri_ClasificariVin_ClasificareVinId",
-                        column: x => x.ClasificareVinId,
-                        principalTable: "ClasificariVin",
-                        principalColumn: "ClasificareVinId",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_ClasificariVin_CalitateStruguriId",
+                table: "ClasificariVin",
+                column: "CalitateStruguriId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClasificariVin_CantitateZaharId",
@@ -214,19 +219,14 @@ namespace ManagementVinarie.Migrations
                 column: "CantitateZaharId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ClasificariVin_ContinutAlcoolId",
+                table: "ClasificariVin",
+                column: "ContinutAlcoolId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ClasificariVin_CuloareId",
                 table: "ClasificariVin",
                 column: "CuloareId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClasificariVin_MaturitateStruguriId",
-                table: "ClasificariVin",
-                column: "MaturitateStruguriId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClasificariVin_TimpInvechereTimpInvechireId",
-                table: "ClasificariVin",
-                column: "TimpInvechereTimpInvechireId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pachete_SalaDegustareId",
@@ -271,16 +271,16 @@ namespace ManagementVinarie.Migrations
                 name: "SaliDegustare");
 
             migrationBuilder.DropTable(
+                name: "CalitatiStruguri");
+
+            migrationBuilder.DropTable(
                 name: "CantitatiZahar");
 
             migrationBuilder.DropTable(
+                name: "ContinuturiAlcool");
+
+            migrationBuilder.DropTable(
                 name: "Culori");
-
-            migrationBuilder.DropTable(
-                name: "MaturitateStruguri");
-
-            migrationBuilder.DropTable(
-                name: "TimpuriInvechire");
         }
     }
 }

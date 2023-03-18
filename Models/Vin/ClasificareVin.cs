@@ -13,11 +13,11 @@ namespace ManagementVinarie.Models.Vin
         public int ClasificareVinId { set; get; }
 
         public Culoare Culoare { set; get; }
-        public MaturitateStruguri MaturitateStruguri{set;get;}
+        public CalitateStruguri CalitateStruguri{set;get;}
     
         public CantitateZahar CantitateZahar { set; get; }
 
-        public TimpInvechire TimpInvechere { set; get; }
+        public ContinutAlcool ContinutAlcool { set; get; }
     }
 
 }
