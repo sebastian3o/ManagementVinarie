@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace ManagementVinarie.Models.Vin
 {
     public class Vin
     {
+        [Key]
         public int VinId { set; get; }
         public string VinDenumire { set; get; }
         public int Cantitate { set; get; }
@@ -17,6 +19,10 @@ namespace ManagementVinarie.Models.Vin
         public string Descriere { set; get; }
 
         public ClasificareVin ClasificareVin{get;set;}
+
+        public DateOnly DataProducerii { get; set; }
+
+
 
 
 

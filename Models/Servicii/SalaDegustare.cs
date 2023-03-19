@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,13 +10,15 @@ namespace ManagementVinarie.Models.Servicii
 {
     public class SalaDegustare
     {
-        public int SalaDegustareId;
-        public string SalaDegustareDenumire;
+        [Key]
+        public int SalaDegustareId { get; set; }
+
+        public string SalaDegustareDenumire{ get; set; }
 
         [Column(TypeName = "ntext")]
-        public string SalaDegustareDescriere;
+        public string SalaDegustareDescriere{ get; set; }
 
-        public byte[] Foto;
+        public byte[] Foto { get; set; }
 
         
 
