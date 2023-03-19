@@ -9,19 +9,29 @@
 
     <Window.Resources>
 
+       
+        
         <Style TargetType="{x:Type TabItem}" x:Key="TabItem2" >
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TabItem}">
                         <Border  CornerRadius="30"  Width="80" Height="80" x:Name="PART_Border" Background="#F9E8C0" BorderThickness="1" BorderBrush="LightGray" Margin="5,0,5,0">
-                            <ContentPresenter ContentSource="Header" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0"/>
+                            <ContentPresenter x:Name="PART_content" TextBlock.Foreground="White" ContentSource="Header" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0" />
 
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="PART_Border" Property="Background" Value="White" />
+                            <Trigger Property="IsVisible" Value="True">
+                                <Setter Property="Foreground" Value="#FFBB00" />
+
                             </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="PART_Border" Property="Background" Value="#BBEBF4" />
+                                <Setter Property="TextBlock.Foreground" Value="#BBEBF4" />
+                                
+
+                            </Trigger>
+                            
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -52,7 +62,7 @@
                             CornerRadius="30"
                             Background="#231858"
                             Margin="0,0,0,0"
-                            Width="1000px"
+                            Width="1050px"
                                     Height="80px">
 
                                 <TabPanel IsItemsHost="True"
@@ -68,6 +78,10 @@
                                 <Button x:Name="btnMin" Click="btnMin_Click" Margin="5,0,5,0"  Height="25" Width="25" Background="#231858"  Foreground="White" FontSize="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="-"></Button>
                                 <Button x:Name="btnClose" Click="btnClose_Click"  Height="25" Width="25" Background="#231858" Foreground="White" FontSize="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="X"></Button>
                             </StackPanel>
+                            
+                            
+                            
+                            
                             <Grid Name="ContentPanel"
                           KeyboardNavigation.TabIndex="2"
                           KeyboardNavigation.TabNavigation="Local"
@@ -110,13 +124,165 @@
                         </Grid.RowDefinitions>
                         <Image Width="60" Height="60" Source="Images/ic_vin.png"></Image>
 
-                        <TextBlock Text="Vinuri" Grid.Row="1" FontSize="16"  HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0" Foreground="#B30E08" FontWeight="Bold"/>
+                        <TextBlock TextAlignment="Center" Width="80" Background="#231858" Text="Vinuri" Grid.Row="1" FontSize="16"  HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0"  FontWeight="Bold"/>
                     </Grid>
 
                 </TabItem.Header>
               
             </TabItem>
+            <TabItem Style="{StaticResource TabItem2}" >
+                <TabItem.Header>
+                    <Grid Width="80" Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.75*"></RowDefinition>
+                            <RowDefinition Height="0.25*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Image Width="60" Height="60" Source="Images/ic_clasificare.png"></Image>
 
+                        <TextBlock TextAlignment="Center" Width="80" Background="#231858" Text="Clasificări" Grid.Row="1" FontSize="16"  HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0"  FontWeight="Bold"/>
+                    </Grid>
+
+                </TabItem.Header>
+
+            </TabItem>
+            <TabItem Style="{StaticResource TabItem2}" >
+                <TabItem.Header>
+                    <Grid Width="80" Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.75*"></RowDefinition>
+                            <RowDefinition Height="0.25*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Image Width="60" Height="60" Source="Images/ic_culori.png"></Image>
+
+                       <TextBlock TextAlignment="Center" Width="80" Background="#231858" Text="Culori" Grid.Row="1" FontSize="16"  HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0"  FontWeight="Bold"/>
+                    </Grid>
+
+                </TabItem.Header>
+
+            </TabItem>
+            <TabItem Style="{StaticResource TabItem2}" >
+                <TabItem.Header>
+                    <Grid Width="80" Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.75*"></RowDefinition>
+                            <RowDefinition Height="0.25*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Image Width="60" Height="60" Source="Images/ic_alcool.png"></Image>
+
+                       <TextBlock TextAlignment="Center" Width="80" Background="#231858" Text="Alcool" Grid.Row="1" FontSize="16"  HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0"  FontWeight="Bold"/>
+                    </Grid>
+
+                </TabItem.Header>
+
+            </TabItem>
+            <TabItem Style="{StaticResource TabItem2}" >
+                <TabItem.Header>
+                    <Grid Width="80" Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.75*"></RowDefinition>
+                            <RowDefinition Height="0.25*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Image Width="60" Height="60" Source="Images/ic_calitate.png"></Image>
+
+                       <TextBlock TextAlignment="Center" Width="80" Background="#231858" Text="Calitate" Grid.Row="1" FontSize="16"  HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0"  FontWeight="Bold"/>
+                    </Grid>
+
+                </TabItem.Header>
+
+            </TabItem>
+            <TabItem Style="{StaticResource TabItem2}" >
+                <TabItem.Header>
+                    <Grid Width="80" Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.75*"></RowDefinition>
+                            <RowDefinition Height="0.25*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Image Width="60" Height="60" Source="Images/ic_zahar.png"></Image>
+
+                       <TextBlock TextAlignment="Center" Width="80" Background="#231858" Text="Zahăr" Grid.Row="1" FontSize="16"  HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0"  FontWeight="Bold"/>
+                    </Grid>
+
+                </TabItem.Header>
+
+            </TabItem>
+
+            <TabItem Style="{StaticResource TabItem2}" >
+                <TabItem.Header>
+                    <Grid Width="80" Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.75*"></RowDefinition>
+                            <RowDefinition Height="0.25*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Image Width="60" Height="60" Source="Images/ic_sali.png"></Image>
+
+                       <TextBlock TextAlignment="Center" Width="80" Background="#231858" Text="Săli" Grid.Row="1" FontSize="16"  HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0"  FontWeight="Bold"/>
+                    </Grid>
+
+                </TabItem.Header>
+
+            </TabItem>
+
+            <TabItem Style="{StaticResource TabItem2}" >
+                <TabItem.Header>
+                    <Grid Width="80" Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.75*"></RowDefinition>
+                            <RowDefinition Height="0.25*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Image Width="60" Height="60" Source="Images/ic_pachete.png"></Image>
+
+                       <TextBlock TextAlignment="Center" Width="80" Background="#231858" Text="Pachete" Grid.Row="1" FontSize="16"  HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0"  FontWeight="Bold"/>
+                    </Grid>
+
+                </TabItem.Header>
+
+            </TabItem>
+            <TabItem Style="{StaticResource TabItem2}" >
+                <TabItem.Header>
+                    <Grid Width="80" Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.75*"></RowDefinition>
+                            <RowDefinition Height="0.25*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Image Width="60" Height="60" Source="Images/ic_rezervari.png"></Image>
+
+                       <TextBlock TextAlignment="Center" Width="80" Background="#231858" Text="Rezervări" Grid.Row="1" FontSize="16"  HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0"  FontWeight="Bold"/>
+                    </Grid>
+
+                </TabItem.Header>
+
+            </TabItem>
+            <TabItem Style="{StaticResource TabItem2}" >
+                <TabItem.Header>
+                    <Grid Width="80" Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.75*"></RowDefinition>
+                            <RowDefinition Height="0.25*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Image Width="60" Height="60" Source="Images/ic_clienti.png"></Image>
+
+                       <TextBlock TextAlignment="Center" Width="80" Background="#231858" Text="Clienți" Grid.Row="1" FontSize="16"  HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0"  FontWeight="Bold"/>
+                    </Grid>
+
+                </TabItem.Header>
+
+            </TabItem>
+
+            <TabItem Style="{StaticResource TabItem2}" >
+                <TabItem.Header>
+                    <Grid Width="80" Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.75*"></RowDefinition>
+                            <RowDefinition Height="0.25*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Image Width="60" Height="60" Source="Images/ic_cautare.png"></Image>
+
+                        <TextBlock TextAlignment="Center" Width="80" Background="#231858" Text="Căutare" Grid.Row="1" FontSize="16"  HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0"  FontWeight="Bold"/>
+                    </Grid>
+
+                </TabItem.Header>
+
+            </TabItem>
 
 
         </TabControl>

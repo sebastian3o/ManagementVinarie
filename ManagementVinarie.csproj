@@ -8,7 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\ic_alcool.png" />
+    <None Remove="Images\ic_calitate.png" />
+    <None Remove="Images\ic_cautare.png" />
+    <None Remove="Images\ic_clasificare.png" />
+    <None Remove="Images\ic_clienti.png" />
+    <None Remove="Images\ic_culori.png" />
+    <None Remove="Images\ic_pachete.png" />
+    <None Remove="Images\ic_rezervari.png" />
+    <None Remove="Images\ic_sali.png" />
     <None Remove="Images\ic_vin.png" />
+    <None Remove="Images\ic_zahar.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,7 +39,37 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\ic_alcool.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ic_calitate.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ic_cautare.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ic_clasificare.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ic_clienti.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ic_culori.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ic_pachete.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ic_rezervari.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ic_sali.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\ic_vin.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\ic_zahar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
