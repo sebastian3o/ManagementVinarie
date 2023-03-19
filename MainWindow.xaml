@@ -5,8 +5,123 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ManagementVinarie"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    Title="MainWindow" Height="1080" Width="1920" WindowState="Maximized" WindowStyle="None">
 
+    <Window.Resources>
+
+        <Style TargetType="{x:Type TabItem}" x:Key="TabItem2" >
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Border  CornerRadius="30"  Width="80" Height="80" x:Name="PART_Border" Background="#F9E8C0" BorderThickness="1" BorderBrush="LightGray" Margin="5,0,5,0">
+                            <ContentPresenter ContentSource="Header" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0"/>
+
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="PART_Border" Property="Background" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type TabControl}" x:Key="TabControl2">
+            <Setter Property="TabStripPlacement" Value="Left" />
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="Padding" Value="2"    />
+            <Setter Property="Background" Value="White" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabControl}">
+                        <Grid ClipToBounds="True" SnapsToDevicePixels="True" KeyboardNavigation.TabNavigation="Local">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Name="ColumnDefinition0" />
+                                <ColumnDefinition Width="0" Name="ColumnDefinition1" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" Name="RowDefinition0" />
+                                <RowDefinition Height="*" Name="RowDefinition1" />
+                            </Grid.RowDefinitions>
+                            <Border  x:Name="HeaderBorder"
+                            BorderBrush="white"
+                            BorderThickness="1"
+                            CornerRadius="30"
+                            Background="#231858"
+                            Margin="0,0,0,0"
+                            Width="1000px"
+                                    Height="80px">
+
+                                <TabPanel IsItemsHost="True"
+                                  Name="HeaderPanel"
+                                  Panel.ZIndex="1"
+                                  KeyboardNavigation.TabIndex="1"
+                                  Grid.Column="0"
+                                  Grid.Row="0" 
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                            </Border>
+                            <StackPanel  HorizontalAlignment="Right"  VerticalAlignment="Top" Orientation="Horizontal">
+                                <Button x:Name="btnMin" Click="btnMin_Click" Margin="5,0,5,0"  Height="25" Width="25" Background="#231858"  Foreground="White" FontSize="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="-"></Button>
+                                <Button x:Name="btnClose" Click="btnClose_Click"  Height="25" Width="25" Background="#231858" Foreground="White" FontSize="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="X"></Button>
+                            </StackPanel>
+                            <Grid Name="ContentPanel"
+                          KeyboardNavigation.TabIndex="2"
+                          KeyboardNavigation.TabNavigation="Local"
+                          KeyboardNavigation.DirectionalNavigation="Contained"
+                          Grid.Column="0"
+                          Grid.Row="1">
+                                <Border Background="Transparent"
+                                BorderBrush="Transparent"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="0">
+                                    <ContentPresenter Content="{TemplateBinding SelectedContent}"
+                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}"
+                                              ContentStringFormat="{TemplateBinding SelectedContentStringFormat}"
+                                              ContentSource="SelectedContent"
+                                              Name="PART_SelectedContentHost"
+                                              Margin="0"
+                                              SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                                </Border>
+                            </Grid>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="UIElement.IsEnabled" Value="False">
+                                <Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Background="#722F37">
+        <TabControl Background="#722F37" Style="{StaticResource TabControl2}" TabStripPlacement="Top">
+            <TabItem Style="{StaticResource TabItem2}" >
+                <TabItem.Header>
+                    <Grid Width="80" Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.75*"></RowDefinition>
+                            <RowDefinition Height="0.25*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Image Width="60" Height="60" Source="Images/ic_vin.png"></Image>
+
+                        <TextBlock Text="Vinuri" Grid.Row="1" FontSize="16"  HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0" Foreground="#B30E08" FontWeight="Bold"/>
+                    </Grid>
+
+                </TabItem.Header>
+              
+            </TabItem>
+
+
+
+        </TabControl>
     </Grid>
+
+
 </Window>
+

@@ -24,5 +24,17 @@ namespace ManagementVinarie
         {
             InitializeComponent();
         }
+
+        private void btnMin_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+
+        }
     }
 }

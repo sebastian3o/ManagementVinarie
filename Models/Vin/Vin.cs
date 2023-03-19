@@ -20,6 +20,10 @@ namespace ManagementVinarie.Models.Vin
 
         public ClasificareVin ClasificareVin{get;set;}
 
+        public DateOnly DataProducerii { get; set; }
+
+
+
 
 
     }
