@@ -29,6 +29,13 @@ namespace ManagementVinarie.Data
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source=Vinarie.db");
 
+        public VinarieContext()
+        {
+            
+            Database.EnsureCreated();
+            
+        }
+
 
     }
 }
