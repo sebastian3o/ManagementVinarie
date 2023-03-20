@@ -28,7 +28,7 @@ namespace ManagementVinarie
         {
             InitializeComponent();
             //date initiale
-
+            /*
             db.Culori.AddRange
                 (
                 new Culoare { CuloareDenumire = "Alb" },
@@ -54,7 +54,7 @@ namespace ManagementVinarie
                 new CantitateZahar { CantitateZaharDenumire = "Demidulce" },
                 new CantitateZahar { CantitateZaharDenumire = "Dulce" }
                 );
-
+            */
 
 
 
