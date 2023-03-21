@@ -34,6 +34,7 @@ namespace ManagementVinarie
         public CalitateStruguri CalitateSelectat;
         public CantitateZahar ZaharSelectat;
         public SalaDegustare SalaSelectat;
+        public Client ClientSelectat;
 
 
         bool AdaugaImagine;
@@ -89,6 +90,7 @@ namespace ManagementVinarie
             ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
 
             SaliDG.ItemsSource = db.SaliDegustare.ToList();
+            ClientiDG.ItemsSource = db.Clienti.ToList();
 
         }
 
@@ -117,7 +119,7 @@ namespace ManagementVinarie
 
             string DenumireCuloare = DenumireCuloareTB.Text;
 
-            if (DenumireCuloare == "") { MessageBox.Show("Introduceți o valaoare în câmpul denumire culoare"); }
+            if (String.IsNullOrEmpty(DenumireCuloare)) { MessageBox.Show("Introduceți o valaoare în câmpul denumire culoare"); }
             else
             {
                 if (DenumireCuloare.Any(char.IsDigit))
@@ -184,13 +186,14 @@ namespace ManagementVinarie
 
             }
         }
+        //////////////////////////////////////////////////////////////////////////
         private void AdaugareAlcoolB_Click(object sender, RoutedEventArgs e)
         {
 
 
             string DenumireAlcool = DenumireAlcoolTB.Text;
 
-            if (DenumireAlcool == "") { MessageBox.Show("Introduceți o valaoare în câmpul denumire culoare"); }
+            if (String.IsNullOrEmpty(DenumireAlcool)) { MessageBox.Show("Introduceți o valaoare în câmpul denumire culoare"); }
             else
             {
                 if (DenumireAlcool.Any(char.IsDigit))
@@ -208,7 +211,6 @@ namespace ManagementVinarie
 
 
 
-        //////////////////////////////////////////////////////////////////////////
 
         private void AlcoolDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -263,7 +265,7 @@ namespace ManagementVinarie
 
             string DenumireCalitate = DenumireCalitateTB.Text;
 
-            if (DenumireCalitate == "") { MessageBox.Show("Introduceți o valaoare în câmpul denumire calității strugurilor"); }
+            if (String.IsNullOrEmpty(DenumireCalitate)) { MessageBox.Show("Introduceți o valaoare în câmpul denumire calității strugurilor"); }
             else
             {
                 if (DenumireCalitate.Any(char.IsDigit))
@@ -335,7 +337,7 @@ namespace ManagementVinarie
 
             string DenumireZahar = DenumireZaharTB.Text;
 
-            if (DenumireZahar == "") { MessageBox.Show("Introduceți o valaoare în câmpul denumire cantității zahărului"); }
+            if (String.IsNullOrEmpty(DenumireZahar)) { MessageBox.Show("Introduceți o valaoare în câmpul denumire cantității zahărului"); }
             else
             {
                 if (DenumireZahar.Any(char.IsDigit))
@@ -446,10 +448,10 @@ namespace ManagementVinarie
 
                 if (SalaIMG.Source == null) { MessageBox.Show("Introduceți o imagine în c85âmpul pentru imagine sală"); return; }
 
-                if (DenumireSala == "") { MessageBox.Show("Introduceți o valaoare în câmpul denumire sala"); }
+                if (String.IsNullOrEmpty(DenumireSala)) { MessageBox.Show("Introduceți o valaoare în câmpul denumire sala"); }
                 else
                 {
-                    if (DescriereSalaTB.Text == "") MessageBox.Show("Introduceți o valaoare în câmpul denumire sala");
+                    if (String.IsNullOrEmpty(DescriereSalaTB.Text)) MessageBox.Show("Introduceți o valaoare în câmpul denumire sala");
                     else
                         if (DenumireSala.Any(char.IsDigit))
                     { MessageBox.Show("Denumirea sălii nu poate conține cifre"); }
@@ -536,5 +538,112 @@ namespace ManagementVinarie
             }
             AdaugaImagine = true;
         }
+
+
+
+
+        // //////////////////////////////////////////////
+
+
+        private void AdaugareClientB_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            string NumeCLient = NumeClientTB.Text;
+
+            
+
+            if (String.IsNullOrEmpty(NumeCLient)) { MessageBox.Show("Introduceți o valaoare în câmpul nume"); }
+            if (String.IsNullOrEmpty(PrenumeClientTB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul prenume"); }
+            if (String.IsNullOrEmpty(DataNastereClientDP.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul data nasterii"); }
+            
+            else
+            {
+                if (NumeCLient.Any(char.IsDigit))
+                { MessageBox.Show("Numele  nu poate conține cifre"); }
+                else
+                {
+                    String gen = "";
+                    if ((bool)MGenRB.IsChecked) gen = "M"; else gen = "F";
+                    db.Clienti.Add(new Client { Nume = NumeCLient ,Prenume=PrenumeClientTB.Text,DataNasterii= DateOnly.FromDateTime((DateTime)DataNastereClientDP.SelectedDate),Gen=gen,Telefon=TelefonClientTB.Text,Email = EmailClientTB.Text});
+
+                    db.SaveChanges();
+
+                    ClientiDG.ItemsSource = db.Clienti.ToList();
+                }
+            }
+        }
+
+        
+
+        private void ClientiDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ClientSelectat = (Client)ClientiDG.SelectedItem;
+            if (ClientSelectat != null)
+            {
+                NumeClientTB.Text = ClientSelectat.Nume;
+                PrenumeClientTB.Text=ClientSelectat.Prenume;
+                DataNastereClientDP.SelectedDate = ClientSelectat.DataNasterii.ToDateTime(TimeOnly.Parse("10:00 PM"));
+                if (ClientSelectat.Gen == "M") MGenRB.IsChecked = true; else FGenRB.IsChecked = true;
+                TelefonClientTB.Text = ClientSelectat.Telefon;
+                EmailClientTB.Text = ClientSelectat.Email;
+            }
+            else
+            {
+                NumeClientTB.Text = "";
+                PrenumeClientTB.Text = "";
+                DataNastereClientDP.Text = "";
+                TelefonClientTB.Text = "";
+                EmailClientTB.Text = "";
+                FGenRB.IsChecked=false;
+                MGenRB.IsChecked=false;
+
+            }
+
+        }
+
+        private void ModificareClientB_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (ClientSelectat != null)
+            {
+                ClientSelectat.Nume = NumeClientTB.Text;
+
+                ClientSelectat.Prenume =PrenumeClientTB.Text;
+               ClientSelectat.DataNasterii= DateOnly.FromDateTime((DateTime)DataNastereClientDP.SelectedDate);
+                ClientSelectat.Telefon= TelefonClientTB.Text;
+                ClientSelectat.Email= EmailClientTB.Text;
+                String gen = "";
+                if ((bool)MGenRB.IsChecked) gen = "M"; else gen = "F";
+                ClientSelectat.Gen = gen;
+
+                db.SaveChanges();
+                ClientiDG.ItemsSource = db.Clienti.ToList();
+            }
+            else
+            {
+                MessageBox.Show("Selectați clientul care va fi modificat");
+            }
+
+
+        }
+
+        private void StergereClientB_Click(object sender, RoutedEventArgs e)
+        {
+            if (ClientSelectat != null)
+            {
+                db.Clienti.Remove(ClientSelectat);
+                db.SaveChanges();
+                ClientiDG.ItemsSource = db.Clienti.ToList();
+            }
+            else
+            {
+                MessageBox.Show("Selectați clienutl care va fi șters");
+
+            }
+        }
+
+
     }
+
 }
