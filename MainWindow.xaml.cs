@@ -18,6 +18,7 @@ using ManagementVinarie.Models.Servicii;
 using Microsoft.Win32;
 using System.IO;
 
+
 namespace ManagementVinarie
 {
     /// <summary>
@@ -25,7 +26,7 @@ namespace ManagementVinarie
     /// </summary>
     public partial class MainWindow : Window
     {
-            VinarieContext db = new VinarieContext();
+        VinarieContext db = new VinarieContext();
 
 
         public Culoare CuloareSelectata;
@@ -35,8 +36,8 @@ namespace ManagementVinarie
         public SalaDegustare SalaSelectat;
 
 
-        byte[] FSala;
-
+        bool AdaugaImagine;
+        Byte[] ImagineSelectata;
 
 
         public MainWindow()
@@ -107,26 +108,27 @@ namespace ManagementVinarie
             Close();
 
         }
-       
+
         //////////////////////////////////////////
-      
+
         private void AdaugareB_Click(object sender, RoutedEventArgs e)
         {
-           
-            
+
+
             string DenumireCuloare = DenumireCuloareTB.Text;
 
             if (DenumireCuloare == "") { MessageBox.Show("Introduceți o valaoare în câmpul denumire culoare"); }
             else
             {
-                if (DenumireCuloare.Any(char.IsDigit)) 
-                    { MessageBox.Show("Denumirea culorii nu poate conține cifre"); }
-                else { 
-                db.Culori.Add(new Culoare { CuloareDenumire = DenumireCuloare });
+                if (DenumireCuloare.Any(char.IsDigit))
+                { MessageBox.Show("Denumirea culorii nu poate conține cifre"); }
+                else
+                {
+                    db.Culori.Add(new Culoare { CuloareDenumire = DenumireCuloare });
 
-                db.SaveChanges();
+                    db.SaveChanges();
 
-                CuloriDG.ItemsSource = db.Culori.ToList();
+                    CuloriDG.ItemsSource = db.Culori.ToList();
                 }
             }
         }
@@ -148,16 +150,17 @@ namespace ManagementVinarie
                 DenumireCuloareTB.Text = "";
 
             }
-            
+
         }
 
         private void ModificareB_Click(object sender, RoutedEventArgs e)
         {
 
-            if (CuloareSelectata != null) { 
-            CuloareSelectata.CuloareDenumire = DenumireCuloareTB.Text;
-            db.SaveChanges();
-            CuloriDG.ItemsSource = db.Culori.ToList();
+            if (CuloareSelectata != null)
+            {
+                CuloareSelectata.CuloareDenumire = DenumireCuloareTB.Text;
+                db.SaveChanges();
+                CuloriDG.ItemsSource = db.Culori.ToList();
             }
             else
             {
@@ -203,10 +206,10 @@ namespace ManagementVinarie
             }
         }
 
-        
-        
+
+
         //////////////////////////////////////////////////////////////////////////
-       
+
         private void AlcoolDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AlcoolSelectat = (ContinutAlcool)AlcoolDG.SelectedItem;
@@ -338,93 +341,133 @@ namespace ManagementVinarie
                 if (DenumireZahar.Any(char.IsDigit))
                 { MessageBox.Show("Denumirea cantității zahărului nu poate conține cifre"); }
                 else
-{
-    db.CantitatiZahar.Add(new CantitateZahar { CantitateZaharDenumire = DenumireZahar });
+                {
+                    db.CantitatiZahar.Add(new CantitateZahar { CantitateZaharDenumire = DenumireZahar });
 
-    db.SaveChanges();
+                    db.SaveChanges();
 
-    ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
-}
+                    ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                }
             }
         }
 
 
 
         private void ZaharDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
-{
-    ZaharSelectat = (CantitateZahar)ZaharDG.SelectedItem;
-    if (ZaharSelectat != null)
-    {
-        DenumireZaharTB.Text = ZaharSelectat.CantitateZaharDenumire;
-    }
-    else
-    {
-                DenumireZaharTB.Text = "";
-
-    }
-
-}
-
-private void ModificareZaharB_Click(object sender, RoutedEventArgs e)
-{
-
-    if (ZaharSelectat != null)
-    {
-                ZaharSelectat.CantitateZaharDenumire = DenumireZaharTB.Text;
-        db.SaveChanges();
-        ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
-    }
-    else
-    {
-        MessageBox.Show("Selectați cantitatea de zahăr care va fi modificată");
-    }
-
-
-}
-
-private void StergereZaharB_Click(object sender, RoutedEventArgs e)
-{
-    if (ZaharSelectat != null)
-    {
-        db.CantitatiZahar.Remove(ZaharSelectat);
-        db.SaveChanges();
-        ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
-
-    }
-    else
-    {
-        MessageBox.Show("Selectați  cantitatea de zahăr care va fi ștersă");
-    }
-}
-
-        ////////////////////////////////////////////////////////////////////////////////////
-        private void AdaugareSalaB_Click(object sender, RoutedEventArgs e)
         {
-
-
-            string DenumireSala = DenumireSalaTB.Text;
-
-            if (SalaIMG.Source == null) { MessageBox.Show("Introduceți o imagine în câmpul pentru imagine sală");return; }
-
-            if (DenumireSala == "") { MessageBox.Show("Introduceți o valaoare în câmpul denumire sala"); }
+            ZaharSelectat = (CantitateZahar)ZaharDG.SelectedItem;
+            if (ZaharSelectat != null)
+            {
+                DenumireZaharTB.Text = ZaharSelectat.CantitateZaharDenumire;
+            }
             else
             {
-                if (DescriereSalaTB.Text == "") MessageBox.Show("Introduceți o valaoare în câmpul denumire sala");
-                else
-                    if (DenumireSala.Any(char.IsDigit))
-                { MessageBox.Show("Denumirea sălii nu poate conține cifre"); }
-                else
-                {
-                    db.SaliDegustare.Add(new SalaDegustare {SalaDegustareDenumire  = DenumireSala,SalaDegustareDescriere= DescriereSalaTB.Text,Foto=FSala});
+                DenumireZaharTB.Text = "";
 
-                    db.SaveChanges();
+            }
 
-                    SaliDG.ItemsSource = db.SaliDegustare.ToList();
-                }
+        }
+
+        private void ModificareZaharB_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (ZaharSelectat != null)
+            {
+                ZaharSelectat.CantitateZaharDenumire = DenumireZaharTB.Text;
+                db.SaveChanges();
+                ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+            }
+            else
+            {
+                MessageBox.Show("Selectați cantitatea de zahăr care va fi modificată");
+            }
+
+
+        }
+
+        private void StergereZaharB_Click(object sender, RoutedEventArgs e)
+        {
+            if (ZaharSelectat != null)
+            {
+                db.CantitatiZahar.Remove(ZaharSelectat);
+                db.SaveChanges();
+                ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+
+            }
+            else
+            {
+                MessageBox.Show("Selectați  cantitatea de zahăr care va fi ștersă");
             }
         }
 
+        ////////////////////////////////////////////////////////////////////////////////////
+
+        public byte[] ConvertImageSourceToByteArray(ImageSource imageSource)
+        {
+            if (imageSource == null)
+                return null;
+
+            var bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+            bitmapImage.UriSource = new Uri(imageSource.ToString());
+            bitmapImage.EndInit();
+
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bitmapImage));
+
+            using (var stream = new MemoryStream())
+            {
+                encoder.Save(stream);
+                return stream.ToArray();
+            }
+        }
        
+
+        public BitmapImage LoadImageFromByteArray(byte[] byteArray)
+        {
+            BitmapImage image = new BitmapImage();
+            using (MemoryStream stream = new MemoryStream(byteArray))
+            {
+                stream.Position = 0;
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.StreamSource = stream;
+                image.EndInit();
+            }
+            return image;
+        }
+
+        private void AdaugareSalaB_Click(object sender, RoutedEventArgs e)
+        {
+           
+                //db.SaliDegustare.Remove()   
+                string DenumireSala = DenumireSalaTB.Text;
+
+                if (SalaIMG.Source == null) { MessageBox.Show("Introduceți o imagine în c85âmpul pentru imagine sală"); return; }
+
+                if (DenumireSala == "") { MessageBox.Show("Introduceți o valaoare în câmpul denumire sala"); }
+                else
+                {
+                    if (DescriereSalaTB.Text == "") MessageBox.Show("Introduceți o valaoare în câmpul denumire sala");
+                    else
+                        if (DenumireSala.Any(char.IsDigit))
+                    { MessageBox.Show("Denumirea sălii nu poate conține cifre"); }
+                    else
+                    {
+                      if(AdaugaImagine)  db.SaliDegustare.Add(new SalaDegustare { SalaDegustareDenumire = DenumireSala, SalaDegustareDescriere = DescriereSalaTB.Text, Foto = ConvertImageSourceToByteArray(SalaIMG.Source) });
+                      else db.SaliDegustare.Add(new SalaDegustare { SalaDegustareDenumire = DenumireSala, SalaDegustareDescriere = DescriereSalaTB.Text, Foto = SalaSelectat.Foto });
+                    //  MessageBox.Show(BufferFromImage((BitmapImage)SalaIMG.Source).ToString());
+                    db.SaveChanges();
+
+                        SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                    }
+                }
+            
+            
+        }
+
+
 
         private void SaliDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -433,14 +476,16 @@ private void StergereZaharB_Click(object sender, RoutedEventArgs e)
             {
                 DenumireSalaTB.Text = SalaSelectat.SalaDegustareDenumire;
                 DescriereSalaTB.Text = SalaSelectat.SalaDegustareDescriere;
-               
+                // FSala = SalaSelectat.Foto;
+                SalaIMG.Source = LoadImageFromByteArray(SalaSelectat.Foto);
+                AdaugaImagine = false;
+
             }
             else
             {
-                DenumireSalaTB.Text ="";
+                DenumireSalaTB.Text = "";
                 DescriereSalaTB.Text = "";
                 SalaIMG.Source = null;
-
             }
 
         }
@@ -486,9 +531,10 @@ private void StergereZaharB_Click(object sender, RoutedEventArgs e)
 
                 SalaIMG.Source = new BitmapImage(fileUri);
 
-               FSala = File.ReadAllBytes(openFileDialog.FileName);
+
 
             }
+            AdaugaImagine = true;
         }
     }
 }
