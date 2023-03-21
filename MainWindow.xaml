@@ -9,8 +9,157 @@
 
     <Window.Resources>
 
-       
-        
+        <SolidColorBrush x:Key="violet1" Color="#6408B3" />
+        <SolidColorBrush x:Key="violet2" Color="#231858" />
+        <SolidColorBrush x:Key="violet3" Color="#120C2C" />
+        <SolidColorBrush x:Key="galben" Color="#FFBB00" />
+        <SolidColorBrush x:Key="rosu" Color="#5A0704" />
+        <SolidColorBrush x:Key="rosu2" Color="#A92520" />
+        <SolidColorBrush x:Key="verde" Color="#08B30E" />
+        <SolidColorBrush x:Key="albastru" Color="#0E08B3" />
+
+            <Style TargetType="TextBlock">
+            <Setter Property="Background" Value="{StaticResource violet2}"></Setter>
+            <Setter Property="Foreground" Value="{StaticResource galben}"></Setter>
+            <Setter Property="TextAlignment" Value="Center"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            
+
+        </Style>
+
+            <Style TargetType="TextBox">
+                <Setter Property="Background" Value="{StaticResource violet2}"></Setter>
+                <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="TextAlignment" Value="Center"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+
+
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="{StaticResource violet2}"></Setter>
+            <Setter Property="Background" Value="White"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="Margin" Value="2,0,2,0"></Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource violet2}"></Setter>
+                    <Setter Property="Foreground" Value="{StaticResource galben}"></Setter>
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+
+
+        <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Background" Value="{StaticResource violet3}" />
+            <Setter Property="Foreground" Value="white" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="White" />
+
+            
+
+
+        </Style>
+        <Style TargetType="DataGrid">
+            <!-- Make the border and grid lines a little less imposing -->
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource violet1}" />
+            <Setter Property="VerticalGridLinesBrush" Value="{StaticResource violet1}" />
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            
+            <Setter Property="ColumnWidth" Value="*"></Setter>
+            <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"></Setter>
+
+           
+
+            <Setter Property="RowStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="{StaticResource rosu2}" />
+                        <Setter Property="OpacityMask" Value="Black" />
+                        <Setter Property="Foreground" Value="{StaticResource galben}" />
+                        <Setter Property="FontWeight" Value="Bold" />
+
+                        
+                        
+                        <Style.Triggers>
+                            <!-- Highlight a grid row as the mouse passes over -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource violet1}" />
+                                <Setter Property="BorderThickness" Value="1px" />
+                                <Setter Property="BorderBrush" Value="White" />
+                                <Setter Property="Foreground" Value="White" />
+
+
+                            </Trigger>
+                        
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{StaticResource violet1}" />
+                                <Setter Property="BorderBrush" Value="White" />
+                                <Setter Property="BorderThickness" Value="1px" />
+                                <Setter Property="Foreground" Value="White" />
+
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+
+          
+            
+            <Setter Property="CellStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridCell">
+                        <Style.Triggers>
+                            <!-- Highlight selected rows -->
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#ff66ccff" />
+                                <Setter Property="BorderBrush" Value="Transparent" />
+                                <Setter Property="Foreground" Value="{StaticResource galben}" />
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="Background" Value="#ff66ccff" />
+                                <Setter Property="BorderBrush" Value="{StaticResource galben}" />
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="Foreground" Value="#FFBB00" />
+                            </Trigger>
+                        </Style.Triggers>
+                        <!-- Add some padding around the contents of a cell -->
+                        <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                        <Setter Property="Padding" Value="4,3,4,3" />
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        <Setter Property="Background" Value="{StaticResource galben}" />
+
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="DataGridCell">
+                                    <Border Padding="{TemplateBinding Padding}" 
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            
+                                            >
+                                        
+                                        <ContentPresenter/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="FocusVisualStyle">
+                            <Setter.Value>
+                                <Style TargetType="Control">
+                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                </Style>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
         <Style TargetType="{x:Type TabItem}" x:Key="TabItem2" >
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Template">
@@ -113,8 +262,8 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid Background="#722F37">
-        <TabControl Background="#722F37" Style="{StaticResource TabControl2}" TabStripPlacement="Top">
+    <Grid Background="{StaticResource rosu}">
+        <TabControl Background="White" Style="{StaticResource TabControl2}" TabStripPlacement="Top">
             <TabItem Style="{StaticResource TabItem2}" >
                 <TabItem.Header>
                     <Grid Width="80" Height="80">
@@ -128,7 +277,8 @@
                     </Grid>
 
                 </TabItem.Header>
-              
+
+                
             </TabItem>
             <TabItem Style="{StaticResource TabItem2}" >
                 <TabItem.Header>
@@ -158,6 +308,74 @@
                     </Grid>
 
                 </TabItem.Header>
+               <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                       
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid 
+                        Name="CuloriDG" 
+                        Background="{StaticResource violet2}"
+                        IsReadOnly="True"
+                        HeadersVisibility="Column"
+                        Margin="50,50,25,50"
+                        Grid.Column="0" SelectedCellsChanged="CuloriDG_SelectedCellsChanged" SelectionChanged="CuloriDG_SelectionChanged"
+                        
+                       
+                        >
+                        
+
+
+                    </DataGrid>
+
+
+                    <Grid Margin="25,50,50,50" 
+                          Grid.Row="0" 
+                          Grid.Column="1"
+                          >
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                       
+                        <Viewbox Grid.Row="2" Grid.ColumnSpan="3">
+                            <TextBlock Width="150">Denumire Culoare</TextBlock>
+                        </Viewbox>
+                        <Viewbox Grid.Row="3" Grid.ColumnSpan="3">
+                            <TextBox Name="DenumireCuloareTB" Width="150"></TextBox>
+                        </Viewbox>
+                        
+                        <Viewbox Grid.Row="5" Stretch="Fill" >
+                            <Button x:Name="AdaugareB" Click="AdaugareB_Click">Adaugă</Button>
+                        </Viewbox>
+                        <Viewbox Grid.Row="5" Grid.Column="1" Stretch="Fill" >
+                            <Button x:Name="ModificareB" Click="ModificareB_Click">Modifică</Button>
+                        </Viewbox>
+                        <Viewbox Grid.Row="5" Grid.Column="2" Stretch="Fill" >
+                            <Button x:Name="StergereB" Click="StergereB_Click" >Șterge</Button>
+                        </Viewbox>
+
+
+                    </Grid>
+
+                </Grid>
 
             </TabItem>
             <TabItem Style="{StaticResource TabItem2}" >
@@ -174,6 +392,72 @@
 
                 </TabItem.Header>
 
+
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid 
+                        Name="AlcoolDG" 
+                        Background="{StaticResource violet2}"
+                        IsReadOnly="True"
+                        HeadersVisibility="Column"
+                        Margin="50,50,25,50"
+                        Grid.Column="0" SelectionChanged="AlcoolDG_SelectionChanged"
+                        
+                       
+                        />
+
+
+                    <Grid Margin="25,50,50,50" 
+                          Grid.Row="0" 
+                          Grid.Column="1"
+                          >
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Viewbox Grid.Row="2" Grid.ColumnSpan="3">
+                            <TextBlock Width="150">Nume Cantitate de Alcool</TextBlock>
+                        </Viewbox>
+                        <Viewbox Grid.Row="3" Grid.ColumnSpan="3">
+                            <TextBox Name="DenumireAlcoolTB" Width="150"></TextBox>
+                        </Viewbox>
+
+                        <Viewbox Grid.Row="5" Stretch="Fill" >
+                            <Button x:Name="AdaugareAlcoolB" Click="AdaugareAlcoolB_Click">Adaugă</Button>
+                        </Viewbox>
+                        <Viewbox Grid.Row="5" Grid.Column="1" Stretch="Fill" >
+                            <Button x:Name="ModificareAlcoolB" Click="ModificareAlcoolB_Click">Modifică</Button>
+                        </Viewbox>
+                        <Viewbox Grid.Row="5" Grid.Column="2" Stretch="Fill" >
+                            <Button x:Name="StergereAlcoolB" Click="StergereAlcoolB_Click" >Șterge</Button>
+                        </Viewbox>
+
+
+                    </Grid>
+
+                </Grid>
+
             </TabItem>
             <TabItem Style="{StaticResource TabItem2}" >
                 <TabItem.Header>
@@ -188,7 +472,70 @@
                     </Grid>
 
                 </TabItem.Header>
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
 
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid 
+                        Name="CalitatiDG" 
+                        Background="{StaticResource violet2}"
+                        IsReadOnly="True"
+                        HeadersVisibility="Column"
+                        Margin="50,50,25,50"
+                        Grid.Column="0" SelectionChanged="CalitatiDG_SelectionChanged"
+                        
+                       
+                        />
+
+
+                    <Grid Margin="25,50,50,50" 
+                          Grid.Row="0" 
+                          Grid.Column="1"
+                          >
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Viewbox Grid.Row="2" Grid.ColumnSpan="3">
+                            <TextBlock Width="150">Denumire Calitate Struguri</TextBlock>
+                        </Viewbox>
+                        <Viewbox Grid.Row="3" Grid.ColumnSpan="3">
+                            <TextBox Name="DenumireCalitateTB" Width="150"></TextBox>
+                        </Viewbox>
+
+                        <Viewbox Grid.Row="5" Stretch="Fill" >
+                            <Button x:Name="AdaugareCalitateB" Click="AdaugareCalitateB_Click">Adaugă</Button>
+                        </Viewbox>
+                        <Viewbox Grid.Row="5" Grid.Column="1" Stretch="Fill" >
+                            <Button x:Name="ModificareCalitateB" Click="ModificareCalitateB_Click">Modifică</Button>
+                        </Viewbox>
+                        <Viewbox Grid.Row="5" Grid.Column="2" Stretch="Fill" >
+                            <Button x:Name="StergerECalitateB" Click="StergereCalitateB_Click" >Șterge</Button>
+                        </Viewbox>
+
+
+                    </Grid>
+
+                </Grid>
             </TabItem>
             <TabItem Style="{StaticResource TabItem2}" >
                 <TabItem.Header>
@@ -203,6 +550,75 @@
                     </Grid>
 
                 </TabItem.Header>
+
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid 
+                        Name="ZaharDG" 
+                        Background="{StaticResource violet2}"
+                        IsReadOnly="True"
+                        HeadersVisibility="Column"
+                        Margin="50,50,25,50"
+                        Grid.Column="0"  SelectionChanged="ZaharDG_SelectionChanged"
+                        
+                       
+                        >
+
+
+
+                    </DataGrid>
+
+
+                    <Grid Margin="25,50,50,50" 
+                          Grid.Row="0" 
+                          Grid.Column="1"
+                          >
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Viewbox Grid.Row="2" Grid.ColumnSpan="3">
+                            <TextBlock Width="150">Nume Cantitate de Zahăr</TextBlock>
+                        </Viewbox>
+                        <Viewbox Grid.Row="3" Grid.ColumnSpan="3">
+                            <TextBox Name="DenumireZaharTB" Width="150"></TextBox>
+                        </Viewbox>
+
+                        <Viewbox Grid.Row="5" Stretch="Fill" >
+                            <Button x:Name="AdaugareZaharB" Click="AdaugareZaharB_Click">Adaugă</Button>
+                        </Viewbox>
+                        <Viewbox Grid.Row="5" Grid.Column="1" Stretch="Fill" >
+                            <Button x:Name="ModificareZaharB" Click="ModificareZaharB_Click">Modifică</Button>
+                        </Viewbox>
+                        <Viewbox Grid.Row="5" Grid.Column="2" Stretch="Fill" >
+                            <Button x:Name="StergerZaharB" Click="StergereZaharB_Click" >Șterge</Button>
+                        </Viewbox>
+
+
+                    </Grid>
+
+                </Grid>
 
             </TabItem>
 
@@ -220,6 +636,106 @@
 
                 </TabItem.Header>
 
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid  Margin="50,50,25,50">
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+
+                        </Grid.RowDefinitions>
+                     
+                        <DataGrid 
+                        Name="SaliDG" 
+                        Background="{StaticResource violet2}"
+                        IsReadOnly="True"
+                        HeadersVisibility="Column"
+                       
+                        Grid.Column="0" SelectionChanged="SaliDG_SelectionChanged"
+                        Grid.RowSpan="4"
+                       
+                        >
+
+
+
+                    </DataGrid>
+
+                        <Border  Grid.Row="4" Grid.RowSpan="3" 
+                                 BorderBrush="{StaticResource violet2}"
+                                 BorderThickness="3"
+                                 Margin="0,10,0,10">
+                        <Image Name="SalaIMG"></Image>
+                        </Border>
+                        <Viewbox Grid.Row="7" >  
+                        <Button Background="{StaticResource violet2}" Foreground="{StaticResource galben}"
+                                Content="Alege Imagine Sală" Click="Button_Click"></Button>
+                        </Viewbox>
+                    </Grid >
+
+                            <Grid Margin="25,50,50,50" 
+                          Grid.Row="0" 
+                          Grid.Column="1"
+                          >
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Viewbox Grid.Row="0" Grid.ColumnSpan="3">
+                            <TextBlock Width="150">Denumire Sală</TextBlock>
+                        </Viewbox>
+                        <Viewbox Grid.Row="1" Grid.ColumnSpan="3">
+                            <TextBox Name="DenumireSalaTB" Width="150"></TextBox>
+                        </Viewbox>
+
+                        <Viewbox Grid.Row="3" Grid.ColumnSpan="3">
+                            <TextBlock Width="150">Descriere Sală</TextBlock>
+                        </Viewbox>
+
+                        <TextBox Grid.Row="4" Grid.ColumnSpan="3" Grid.RowSpan="2" Name="DescriereSalaTB" ></TextBox>
+                        
+
+                        <Viewbox Grid.Row="7" Stretch="Fill" >
+                            <Button x:Name="AdaugareSalaB" Click="AdaugareSalaB_Click">Adaugă</Button>
+                        </Viewbox>
+                        <Viewbox Grid.Row="7" Grid.Column="1" Stretch="Fill" >
+                            <Button x:Name="ModificareSalaB" Click="ModificareSalaB_Click">Modifică</Button>
+                        </Viewbox>
+                        <Viewbox Grid.Row="7" Grid.Column="2" Stretch="Fill" >
+                            <Button x:Name="StergereSalaB" Click="StergereSalaB_Click" >Șterge</Button>
+                        </Viewbox>
+
+
+                    </Grid>
+
+                </Grid>
+
             </TabItem>
 
             <TabItem Style="{StaticResource TabItem2}" >
@@ -235,6 +751,8 @@
                     </Grid>
 
                 </TabItem.Header>
+                
+                
 
             </TabItem>
             <TabItem Style="{StaticResource TabItem2}" >
