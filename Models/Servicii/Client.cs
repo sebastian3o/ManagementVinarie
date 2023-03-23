@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Windows.Controls;
+using System.Xml.Linq;
 
 namespace ManagementVinarie.Models.Servicii
 {
@@ -20,5 +22,12 @@ namespace ManagementVinarie.Models.Servicii
         public string Telefon { set; get; }
 
         public string Email { set; get; }
+
+       public override string ToString()
+        {
+            return ClientId.ToString()+" "+Nume+" "+Prenume;
+        }
     }
+    
+
 }

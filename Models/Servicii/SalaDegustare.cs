@@ -20,7 +20,12 @@ namespace ManagementVinarie.Models.Servicii
 
         public byte[] Foto { get; set; }
 
-        
+        public override string ToString()
+        {
+            return SalaDegustareId+" "+SalaDegustareDenumire;
+        }
+
+
 
     }
 }

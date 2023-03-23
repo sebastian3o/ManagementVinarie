@@ -128,7 +128,7 @@ namespace ManagementVinarie.Migrations
                     b.ToTable("SaliDegustare");
                 });
 
-            modelBuilder.Entity("ManagementVinarie.Models.Vin.CalitateStruguri", b =>
+            modelBuilder.Entity("ManagementVinarie.Models.Vin_.CalitateStruguri", b =>
                 {
                     b.Property<int>("CalitateStruguriId")
                         .ValueGeneratedOnAdd()
@@ -143,7 +143,7 @@ namespace ManagementVinarie.Migrations
                     b.ToTable("CalitatiStruguri");
                 });
 
-            modelBuilder.Entity("ManagementVinarie.Models.Vin.CantitateZahar", b =>
+            modelBuilder.Entity("ManagementVinarie.Models.Vin_.CantitateZahar", b =>
                 {
                     b.Property<int>("CantitateZaharId")
                         .ValueGeneratedOnAdd()
@@ -158,9 +158,9 @@ namespace ManagementVinarie.Migrations
                     b.ToTable("CantitatiZahar");
                 });
 
-            modelBuilder.Entity("ManagementVinarie.Models.Vin.ClasificareVin", b =>
+            modelBuilder.Entity("ManagementVinarie.Models.Vin_.Clasificare", b =>
                 {
-                    b.Property<int>("ClasificareVinId")
+                    b.Property<int>("ClasificareId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -176,7 +176,7 @@ namespace ManagementVinarie.Migrations
                     b.Property<int>("CuloareId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ClasificareVinId");
+                    b.HasKey("ClasificareId");
 
                     b.HasIndex("CalitateStruguriId");
 
@@ -186,10 +186,10 @@ namespace ManagementVinarie.Migrations
 
                     b.HasIndex("CuloareId");
 
-                    b.ToTable("ClasificariVin");
+                    b.ToTable("Clasificari");
                 });
 
-            modelBuilder.Entity("ManagementVinarie.Models.Vin.ContinutAlcool", b =>
+            modelBuilder.Entity("ManagementVinarie.Models.Vin_.ContinutAlcool", b =>
                 {
                     b.Property<int>("ContinutAlcoolId")
                         .ValueGeneratedOnAdd()
@@ -204,7 +204,7 @@ namespace ManagementVinarie.Migrations
                     b.ToTable("ContinuturiAlcool");
                 });
 
-            modelBuilder.Entity("ManagementVinarie.Models.Vin.Culoare", b =>
+            modelBuilder.Entity("ManagementVinarie.Models.Vin_.Culoare", b =>
                 {
                     b.Property<int>("CuloareId")
                         .ValueGeneratedOnAdd()
@@ -219,7 +219,7 @@ namespace ManagementVinarie.Migrations
                     b.ToTable("Culori");
                 });
 
-            modelBuilder.Entity("ManagementVinarie.Models.Vin.Vin", b =>
+            modelBuilder.Entity("ManagementVinarie.Models.Vin_.Vin", b =>
                 {
                     b.Property<int>("VinId")
                         .ValueGeneratedOnAdd()
@@ -228,15 +228,15 @@ namespace ManagementVinarie.Migrations
                     b.Property<int>("Cantitate")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ClasificareVinId")
+                    b.Property<int>("ClasificareId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateOnly>("DataProducerii")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Descriere")
+                    b.Property<byte[]>("ImagineVin")
                         .IsRequired()
-                        .HasColumnType("ntext");
+                        .HasColumnType("BLOB");
 
                     b.Property<string>("VinDenumire")
                         .IsRequired()
@@ -244,7 +244,7 @@ namespace ManagementVinarie.Migrations
 
                     b.HasKey("VinId");
 
-                    b.HasIndex("ClasificareVinId");
+                    b.HasIndex("ClasificareId");
 
                     b.ToTable("Vinuri");
                 });
@@ -279,27 +279,27 @@ namespace ManagementVinarie.Migrations
                     b.Navigation("Pachet");
                 });
 
-            modelBuilder.Entity("ManagementVinarie.Models.Vin.ClasificareVin", b =>
+            modelBuilder.Entity("ManagementVinarie.Models.Vin_.Clasificare", b =>
                 {
-                    b.HasOne("ManagementVinarie.Models.Vin.CalitateStruguri", "CalitateStruguri")
+                    b.HasOne("ManagementVinarie.Models.Vin_.CalitateStruguri", "CalitateStruguri")
                         .WithMany()
                         .HasForeignKey("CalitateStruguriId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ManagementVinarie.Models.Vin.CantitateZahar", "CantitateZahar")
+                    b.HasOne("ManagementVinarie.Models.Vin_.CantitateZahar", "CantitateZahar")
                         .WithMany()
                         .HasForeignKey("CantitateZaharId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ManagementVinarie.Models.Vin.ContinutAlcool", "ContinutAlcool")
+                    b.HasOne("ManagementVinarie.Models.Vin_.ContinutAlcool", "ContinutAlcool")
                         .WithMany()
                         .HasForeignKey("ContinutAlcoolId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ManagementVinarie.Models.Vin.Culoare", "Culoare")
+                    b.HasOne("ManagementVinarie.Models.Vin_.Culoare", "Culoare")
                         .WithMany()
                         .HasForeignKey("CuloareId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -314,15 +314,15 @@ namespace ManagementVinarie.Migrations
                     b.Navigation("Culoare");
                 });
 
-            modelBuilder.Entity("ManagementVinarie.Models.Vin.Vin", b =>
+            modelBuilder.Entity("ManagementVinarie.Models.Vin_.Vin", b =>
                 {
-                    b.HasOne("ManagementVinarie.Models.Vin.ClasificareVin", "ClasificareVin")
+                    b.HasOne("ManagementVinarie.Models.Vin_.Clasificare", "Clasificare")
                         .WithMany()
-                        .HasForeignKey("ClasificareVinId")
+                        .HasForeignKey("ClasificareId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ClasificareVin");
+                    b.Navigation("Clasificare");
                 });
 #pragma warning restore 612, 618
         }

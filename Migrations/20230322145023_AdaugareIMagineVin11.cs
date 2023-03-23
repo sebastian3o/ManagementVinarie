@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ManagementVinarie.Migrations
 {
     /// <inheritdoc />
-    public partial class CorectareModele : Migration
+    public partial class AdaugareIMagineVin11 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -97,10 +97,10 @@ namespace ManagementVinarie.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClasificariVin",
+                name: "Clasificari",
                 columns: table => new
                 {
-                    ClasificareVinId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ClasificareId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     CuloareId = table.Column<int>(type: "INTEGER", nullable: false),
                     CalitateStruguriId = table.Column<int>(type: "INTEGER", nullable: false),
@@ -109,27 +109,27 @@ namespace ManagementVinarie.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClasificariVin", x => x.ClasificareVinId);
+                    table.PrimaryKey("PK_Clasificari", x => x.ClasificareId);
                     table.ForeignKey(
-                        name: "FK_ClasificariVin_CalitatiStruguri_CalitateStruguriId",
+                        name: "FK_Clasificari_CalitatiStruguri_CalitateStruguriId",
                         column: x => x.CalitateStruguriId,
                         principalTable: "CalitatiStruguri",
                         principalColumn: "CalitateStruguriId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ClasificariVin_CantitatiZahar_CantitateZaharId",
+                        name: "FK_Clasificari_CantitatiZahar_CantitateZaharId",
                         column: x => x.CantitateZaharId,
                         principalTable: "CantitatiZahar",
                         principalColumn: "CantitateZaharId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ClasificariVin_ContinuturiAlcool_ContinutAlcoolId",
+                        name: "FK_Clasificari_ContinuturiAlcool_ContinutAlcoolId",
                         column: x => x.ContinutAlcoolId,
                         principalTable: "ContinuturiAlcool",
                         principalColumn: "ContinutAlcoolId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ClasificariVin_Culori_CuloareId",
+                        name: "FK_Clasificari_Culori_CuloareId",
                         column: x => x.CuloareId,
                         principalTable: "Culori",
                         principalColumn: "CuloareId",
@@ -167,17 +167,18 @@ namespace ManagementVinarie.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     VinDenumire = table.Column<string>(type: "TEXT", nullable: false),
                     Cantitate = table.Column<int>(type: "INTEGER", nullable: false),
-                    Descriere = table.Column<string>(type: "ntext", nullable: false),
-                    ClasificareVinId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ImagineVin = table.Column<byte[]>(type: "BLOB", nullable: false),
+                    ClasificareId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DataProducerii = table.Column<DateOnly>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vinuri", x => x.VinId);
                     table.ForeignKey(
-                        name: "FK_Vinuri_ClasificariVin_ClasificareVinId",
-                        column: x => x.ClasificareVinId,
-                        principalTable: "ClasificariVin",
-                        principalColumn: "ClasificareVinId",
+                        name: "FK_Vinuri_Clasificari_ClasificareId",
+                        column: x => x.ClasificareId,
+                        principalTable: "Clasificari",
+                        principalColumn: "ClasificareId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -209,23 +210,23 @@ namespace ManagementVinarie.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClasificariVin_CalitateStruguriId",
-                table: "ClasificariVin",
+                name: "IX_Clasificari_CalitateStruguriId",
+                table: "Clasificari",
                 column: "CalitateStruguriId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClasificariVin_CantitateZaharId",
-                table: "ClasificariVin",
+                name: "IX_Clasificari_CantitateZaharId",
+                table: "Clasificari",
                 column: "CantitateZaharId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClasificariVin_ContinutAlcoolId",
-                table: "ClasificariVin",
+                name: "IX_Clasificari_ContinutAlcoolId",
+                table: "Clasificari",
                 column: "ContinutAlcoolId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClasificariVin_CuloareId",
-                table: "ClasificariVin",
+                name: "IX_Clasificari_CuloareId",
+                table: "Clasificari",
                 column: "CuloareId");
 
             migrationBuilder.CreateIndex(
@@ -244,9 +245,9 @@ namespace ManagementVinarie.Migrations
                 column: "PachetId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vinuri_ClasificareVinId",
+                name: "IX_Vinuri_ClasificareId",
                 table: "Vinuri",
-                column: "ClasificareVinId");
+                column: "ClasificareId");
         }
 
         /// <inheritdoc />
@@ -265,7 +266,7 @@ namespace ManagementVinarie.Migrations
                 name: "Pachete");
 
             migrationBuilder.DropTable(
-                name: "ClasificariVin");
+                name: "Clasificari");
 
             migrationBuilder.DropTable(
                 name: "SaliDegustare");

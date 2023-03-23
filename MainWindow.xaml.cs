@@ -13,11 +13,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ManagementVinarie.Data;
-using ManagementVinarie.Models.Vin;
+using ManagementVinarie.Models.Vin_;
 using ManagementVinarie.Models.Servicii;
 using Microsoft.Win32;
 using System.IO;
-
+using System.Diagnostics;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace ManagementVinarie
 {
@@ -26,24 +28,32 @@ namespace ManagementVinarie
     /// </summary>
     public partial class MainWindow : Window
     {
-        VinarieContext db = new VinarieContext();
+        VinarieContext db;
 
 
         public Culoare CuloareSelectata;
         public ContinutAlcool AlcoolSelectat;
         public CalitateStruguri CalitateSelectat;
         public CantitateZahar ZaharSelectat;
+        public Clasificare ClasificareSelectat;
+        public Vin VinSelectat;
+
         public SalaDegustare SalaSelectat;
         public Client ClientSelectat;
+        public Pachet PachetSelectat;
+        public Rezervare RezervareSelectat;
+       
 
 
         bool AdaugaImagine;
+        bool AdaugaImagineVin;
         Byte[] ImagineSelectata;
 
 
         public MainWindow()
         {
             InitializeComponent();
+            db = new VinarieContext();
             //date initiale
             /*
             db.Culori.AddRange
@@ -72,28 +82,72 @@ namespace ManagementVinarie
                    new CantitateZahar { CantitateZaharDenumire = "Demidulce" },
                    new CantitateZahar { CantitateZaharDenumire = "Dulce" }
                    );
+               
 
                db.Clienti.AddRange
                    (
-                   new Client { Nume = "1", Prenume = "1", DataNasterii = new DateOnly(1, 1, 1), Gen = "M", Telefon = "11111111", Email = "1.mail.com" },
-                   new Client { Nume = "1", Prenume = "1", DataNasterii = new DateOnly(1, 1, 1), Gen = "M", Telefon = "11111111", Email = "1.mail.com" },
-                   new Client { Nume = "1", Prenume = "1", DataNasterii = new DateOnly(1, 1, 1), Gen = "M", Telefon = "11111111", Email = "1.mail.com" },
-                   new Client { Nume = "1", Prenume = "1", DataNasterii = new DateOnly(1, 1, 1), Gen = "M", Telefon = "11111111", Email = "1.mail.com" }
+                 new Client { Nume = "Popescu", Prenume = "Alexandra", DataNasterii = new DateOnly(1995, 3, 15), Gen = "F", Telefon = "0723456789", Email = "alexandra.popescu@gmail.com" },
+new Client { Nume = "Ionescu", Prenume = "Andrei", DataNasterii = new DateOnly(1987, 11, 4), Gen = "M", Telefon = "0756789123", Email = "andrei.ionescu@yahoo.com" },
+new Client { Nume = "Marinescu", Prenume = "Maria", DataNasterii = new DateOnly(2001, 8, 22), Gen = "F", Telefon = "0721456789", Email = "maria.marinescu@hotmail.com" },
+new Client { Nume = "Popa", Prenume = "Mihai", DataNasterii = new DateOnly(1998, 5, 1), Gen = "M", Telefon = "0732123456", Email = "mihai.popa@gmail.com" },
+new Client { Nume = "Radu", Prenume = "Ana", DataNasterii = new DateOnly(2002, 9, 12), Gen = "F", Telefon = "0744567890", Email = "ana.radu@yahoo.com" },
+new Client { Nume = "Badea", Prenume = "Cristian", DataNasterii = new DateOnly(1980, 2, 27), Gen = "M", Telefon = "0723456123", Email = "cristian.badea@gmail.com" },
+new Client { Nume = "Pop", Prenume = "Alina", DataNasterii = new DateOnly(1992, 12, 10), Gen = "F", Telefon = "0723789456", Email = "alina.pop@yahoo.com" },
+new Client { Nume = "Stoica", Prenume = "Mircea", DataNasterii = new DateOnly(1985, 6, 19), Gen = "M", Telefon = "0732678945", Email = "mircea.stoica@hotmail.com" },
+new Client { Nume = "Dumitru", Prenume = "Elena", DataNasterii = new DateOnly(2004, 1, 3), Gen = "F", Telefon = "0723678912", Email = "elena.dumitru@gmail.com" },
+new Client { Nume = "Gheorghe", Prenume = "Victor", DataNasterii = new DateOnly(1977, 8, 7), Gen = "M", Telefon = "0745789123", Email = "victor.gheorghe@yahoo.com" },
+new Client { Nume = "Iancu", Prenume = "Loredana", DataNasterii = new DateOnly(1999, 4, 25), Gen = "F", Telefon = "0723456709", Email = "loredana.iancu@hotmail.com" },
+new Client { Nume = "Neagu", Prenume = "George", DataNasterii = new DateOnly(1982, 10, 8), Gen = "M", Telefon = "0721345678", Email = "george.neagu@gmail.com" },
+new Client { Nume = "Constantin", Prenume = "Andreea", DataNasterii = new DateOnly(1997, 2, 17), Gen = "F", Telefon = "0724567891", Email = "andreea.constantin@yahoo.com" },
+new Client { Nume = "Diaconu", Prenume = "Ciprian", DataNasterii = new DateOnly(1988, 6, 29), Gen = "M", Telefon = "0756789123", Email = "ciprian.diaconu@hotmail.com" },
+new Client { Nume = "Vasilescu", Prenume = "Diana", DataNasterii = new DateOnly(2000, 11, 14), Gen = "F", Telefon = "0723456789", Email = "diana.vasilescu@gmail.com" },
+new Client { Nume = "Munteanu", Prenume = "Ionut", DataNasterii = new DateOnly(1993, 7, 23), Gen = "M", Telefon = "0745678912", Email = "ionut.munteanu@yahoo.com" },
+new Client { Nume = "Preda", Prenume = "Ana-Maria", DataNasterii = new DateOnly(1990, 4, 12), Gen = "F", Telefon = "0734567890", Email = "ana-maria.preda@hotmail.com" },
+new Client { Nume = "Georgescu", Prenume = "Andrei", DataNasterii = new DateOnly(1983, 9, 2), Gen = "M", Telefon = "0741234567", Email = "andrei.georgescu@gmail.com" },
+new Client { Nume = "Petrescu", Prenume = "Elena", DataNasterii = new DateOnly(1996, 5, 7), Gen = "F", Telefon = "0723678912", Email = "elena.petrescu@yahoo.com" },
+new Client { Nume = "Mihai", Prenume = "George", DataNasterii = new DateOnly(1989, 12, 20), Gen = "M", Telefon = "0732123456", Email = "george.mihai@hotmail.com" }
                    );
+            */
 
-               db.SaveChanges();
-               */
+            /*
+            db.Culori.AddRange
+               (
+              new Culoare { CuloareDenumire = "Roșu închis" },
+new Culoare { CuloareDenumire = "Roșu rubiniu" },
+new Culoare { CuloareDenumire = "Roșu violaceu" },
+new Culoare { CuloareDenumire = "Portocaliu" },
+new Culoare { CuloareDenumire = "Galben pai" },
+new Culoare { CuloareDenumire = "Auriu" },
+new Culoare { CuloareDenumire = "Culoare somon" },
+new Culoare { CuloareDenumire = "Roșu-deschis" },
+new Culoare { CuloareDenumire = "Roșu-grena" },
+new Culoare { CuloareDenumire = "Culoare rubinie" }
+               );
+            */
+           
 
+            db.SaveChanges();
             CuloriDG.ItemsSource = db.Culori.ToList();
             AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
             CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
             ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+           ClasificariDG.ItemsSource = db.Clasificari.ToList();
+           
+
 
             SaliDG.ItemsSource = db.SaliDegustare.ToList();
             ClientiDG.ItemsSource = db.Clienti.ToList();
+            PacheteDG.ItemsSource = db.Pachete.ToList();
+           RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+            VinuriDG.ItemsSource = db.Vinuri.ToList();
+
+
+
+          //  SalaDegustareCB.Items.Clear();
+
 
         }
-
 
 
 
@@ -111,7 +165,7 @@ namespace ManagementVinarie
 
         }
 
-        //////////////////////////////////////////
+        /////////////////////////////////////////////
 
         private void AdaugareB_Click(object sender, RoutedEventArgs e)
         {
@@ -176,9 +230,54 @@ namespace ManagementVinarie
         {
             if (CuloareSelectata != null)
             {
-                db.Culori.Remove(CuloareSelectata);
-                db.SaveChanges();
-                CuloriDG.ItemsSource = db.Culori.ToList();
+                if (db.Clasificari.Any(x => x.Culoare == CuloareSelectata))
+                {
+                    MessageBoxResult result = MessageBox.Show("Stergerea dată va provoca ștergerea rândurilor din tabelul clasificari", "Confirmation", MessageBoxButton.OKCancel);
+
+                    if (result == MessageBoxResult.OK)
+                    {
+                        db.Culori.Remove(CuloareSelectata);
+                        db.SaveChanges();
+                        CuloriDG.ItemsSource = db.Culori.ToList();
+
+                        CuloriDG.ItemsSource = db.Culori.ToList();
+                        AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                        CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                        ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                        ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                        SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                        ClientiDG.ItemsSource = db.Clienti.ToList();
+                        PacheteDG.ItemsSource = db.Pachete.ToList();
+                        RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                        VinuriDG.ItemsSource = db.Vinuri.ToList();
+                    }
+
+                }
+                else
+                {
+                    db.Culori.Remove(CuloareSelectata);
+                    db.SaveChanges();
+                    CuloriDG.ItemsSource = db.Culori.ToList();
+
+                    CuloriDG.ItemsSource = db.Culori.ToList();
+                    AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                    CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                    ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                    ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                    SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                    ClientiDG.ItemsSource = db.Clienti.ToList();
+                    PacheteDG.ItemsSource = db.Pachete.ToList();
+                    RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                    VinuriDG.ItemsSource = db.Vinuri.ToList();
+                }
             }
             else
             {
@@ -248,10 +347,57 @@ namespace ManagementVinarie
         {
             if (AlcoolSelectat != null)
             {
-                db.ContinuturiAlcool.Remove(AlcoolSelectat);
-                db.SaveChanges();
-                AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                if (db.Clasificari.Any(x => x.ContinutAlcool == AlcoolSelectat))
+                {
+                    MessageBoxResult result = MessageBox.Show("Stergerea dată va provoca ștergerea rândurilor din tabelul clasificari", "Confirmation", MessageBoxButton.OKCancel);
 
+                    if (result == MessageBoxResult.OK)
+                    {
+
+                        db.ContinuturiAlcool.Remove(AlcoolSelectat);
+                        db.SaveChanges();
+                        AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+
+
+                        CuloriDG.ItemsSource = db.Culori.ToList();
+                        AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                        CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                        ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                        ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                        SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                        ClientiDG.ItemsSource = db.Clienti.ToList();
+                        PacheteDG.ItemsSource = db.Pachete.ToList();
+                        RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                        VinuriDG.ItemsSource = db.Vinuri.ToList();
+                    }
+
+                }
+                else
+                {
+                    db.ContinuturiAlcool.Remove(AlcoolSelectat);
+                    db.SaveChanges();
+                    AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+
+
+                    CuloriDG.ItemsSource = db.Culori.ToList();
+                    AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                    CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                    ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                    ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                    SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                    ClientiDG.ItemsSource = db.Clienti.ToList();
+                    PacheteDG.ItemsSource = db.Pachete.ToList();
+                    RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                    VinuriDG.ItemsSource = db.Vinuri.ToList();
+                }
             }
             else
             {
@@ -319,10 +465,54 @@ namespace ManagementVinarie
         {
             if (CalitateSelectat != null)
             {
-                db.CalitatiStruguri.Remove(CalitateSelectat);
-                db.SaveChanges();
-                CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                if (db.Clasificari.Any(x => x.CalitateStruguri == CalitateSelectat))
+                {
+                    MessageBoxResult result = MessageBox.Show("Stergerea dată va provoca ștergerea rândurilor din tabelul clasificari", "Confirmation", MessageBoxButton.OKCancel);
 
+                    if (result == MessageBoxResult.OK)
+                    {
+                        db.CalitatiStruguri.Remove(CalitateSelectat);
+                        db.SaveChanges();
+                        CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+
+                        CuloriDG.ItemsSource = db.Culori.ToList();
+                        AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                        CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                        ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                        ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                        SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                        ClientiDG.ItemsSource = db.Clienti.ToList();
+                        PacheteDG.ItemsSource = db.Pachete.ToList();
+                        RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                        VinuriDG.ItemsSource = db.Vinuri.ToList();
+                    }
+
+                }
+                else
+                {
+                    db.CalitatiStruguri.Remove(CalitateSelectat);
+                    db.SaveChanges();
+                    CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+
+                    CuloriDG.ItemsSource = db.Culori.ToList();
+                    AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                    CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                    ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                    ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                    SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                    ClientiDG.ItemsSource = db.Clienti.ToList();
+                    PacheteDG.ItemsSource = db.Pachete.ToList();
+                    RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                    VinuriDG.ItemsSource = db.Vinuri.ToList();
+                }
             }
             else
             {
@@ -391,10 +581,54 @@ namespace ManagementVinarie
         {
             if (ZaharSelectat != null)
             {
-                db.CantitatiZahar.Remove(ZaharSelectat);
-                db.SaveChanges();
-                ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                if (db.Clasificari.Any(x => x.CantitateZahar == ZaharSelectat))
+                {
+                    MessageBoxResult result = MessageBox.Show("Stergerea dată va provoca ștergerea rândurilor din tabelul clasificari", "Confirmation", MessageBoxButton.OKCancel);
 
+                    if (result == MessageBoxResult.OK)
+                    {
+                        db.CantitatiZahar.Remove(ZaharSelectat);
+                        db.SaveChanges();
+                        ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+
+                        CuloriDG.ItemsSource = db.Culori.ToList();
+                        AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                        CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                        ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                        ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                        SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                        ClientiDG.ItemsSource = db.Clienti.ToList();
+                        PacheteDG.ItemsSource = db.Pachete.ToList();
+                        RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                        VinuriDG.ItemsSource = db.Vinuri.ToList();
+                    }
+
+                }
+                else
+                {
+                    db.CantitatiZahar.Remove(ZaharSelectat);
+                    db.SaveChanges();
+                    ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+
+                    CuloriDG.ItemsSource = db.Culori.ToList();
+                    AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                    CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                    ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                    ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                    SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                    ClientiDG.ItemsSource = db.Clienti.ToList();
+                    PacheteDG.ItemsSource = db.Pachete.ToList();
+                    RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                    VinuriDG.ItemsSource = db.Vinuri.ToList();
+                }
             }
             else
             {
@@ -488,6 +722,8 @@ namespace ManagementVinarie
                 DenumireSalaTB.Text = "";
                 DescriereSalaTB.Text = "";
                 SalaIMG.Source = null;
+                AdaugaImagine = false;
+
             }
 
         }
@@ -498,8 +734,11 @@ namespace ManagementVinarie
             if (SalaSelectat != null)
             {
                 SalaSelectat.SalaDegustareDenumire = DenumireSalaTB.Text;
+                if (AdaugaImagine) SalaSelectat.Foto = ConvertImageSourceToByteArray(SalaIMG.Source);
                 db.SaveChanges();
                 SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                AdaugaImagine = false;
+
             }
             else
             {
@@ -513,9 +752,56 @@ namespace ManagementVinarie
         {
             if (SalaSelectat != null)
             {
-                db.SaliDegustare.Remove(SalaSelectat);
-                db.SaveChanges();
-                SaliDG.ItemsSource = db.SaliDegustare.ToList();
+
+                if (db.Pachete.Any(x => x.SalaDegustare == SalaSelectat))
+                    {
+                        MessageBoxResult result = MessageBox.Show("Stergerea dată va provoca ștergerea rândurilor din tabelul pachete", "Confirmation", MessageBoxButton.OKCancel);
+
+                        if (result == MessageBoxResult.OK)
+                        {
+
+                            db.SaliDegustare.Remove(SalaSelectat);
+                            db.SaveChanges();
+                            SaliDG.ItemsSource = db.SaliDegustare.ToList();
+
+                            CuloriDG.ItemsSource = db.Culori.ToList();
+                            AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                            CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                            ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                            ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                            SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                            ClientiDG.ItemsSource = db.Clienti.ToList();
+                            PacheteDG.ItemsSource = db.Pachete.ToList();
+                            RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                            VinuriDG.ItemsSource = db.Vinuri.ToList();
+                        }
+
+                    }
+                    else
+                    {
+                        db.SaliDegustare.Remove(SalaSelectat);
+                        db.SaveChanges();
+                        SaliDG.ItemsSource = db.SaliDegustare.ToList();
+
+                        CuloriDG.ItemsSource = db.Culori.ToList();
+                        AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                        CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                        ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                        ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                        SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                        ClientiDG.ItemsSource = db.Clienti.ToList();
+                        PacheteDG.ItemsSource = db.Pachete.ToList();
+                        RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                        VinuriDG.ItemsSource = db.Vinuri.ToList();
+                    }
 
             }
             else
@@ -538,8 +824,16 @@ namespace ManagementVinarie
             }
             AdaugaImagine = true;
         }
+        
+        /// ////////////////////////////////////////////////
+        
+        public const string TelefonValid = "^\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}$";
 
-
+public static bool IsPhoneNbr(string number)
+        {
+            if (number != null) return Regex.IsMatch(number, TelefonValid);
+            else return false;
+        }
 
 
         // //////////////////////////////////////////////
@@ -553,9 +847,13 @@ namespace ManagementVinarie
 
             
 
-            if (String.IsNullOrEmpty(NumeCLient)) { MessageBox.Show("Introduceți o valaoare în câmpul nume"); }
-            if (String.IsNullOrEmpty(PrenumeClientTB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul prenume"); }
-            if (String.IsNullOrEmpty(DataNastereClientDP.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul data nasterii"); }
+
+            if (String.IsNullOrEmpty(NumeCLient)) { MessageBox.Show("Introduceți o valaoare în câmpul nume"); return; }
+            if (String.IsNullOrEmpty(PrenumeClientTB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul prenume"); return; }
+            if (String.IsNullOrEmpty(DataNastereClientDP.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul data nasterii"); return; }
+            if (String.IsNullOrEmpty(EmailClientTB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul email"); return; }
+            if (!IsValidEmail(EmailClientTB.Text)) { MessageBox.Show("Introduceți o valaoare valida în câmpul email"); return; }
+            if (!IsPhoneNbr(TelefonClientTB.Text)) { MessageBox.Show("Introduceți o valaoare valida în câmpul telefon"); return; }
             
             else
             {
@@ -564,7 +862,7 @@ namespace ManagementVinarie
                 else
                 {
                     String gen = "";
-                    if ((bool)MGenRB.IsChecked) gen = "M"; else gen = "F";
+                    if ((bool)MGenRB.IsChecked) gen = "M"; else if((bool)FGenRB.IsChecked) gen = "F"; if(gen=="") { MessageBox.Show("Alegeti genul!"); return; }
                     db.Clienti.Add(new Client { Nume = NumeCLient ,Prenume=PrenumeClientTB.Text,DataNasterii= DateOnly.FromDateTime((DateTime)DataNastereClientDP.SelectedDate),Gen=gen,Telefon=TelefonClientTB.Text,Email = EmailClientTB.Text});
 
                     db.SaveChanges();
@@ -632,9 +930,56 @@ namespace ManagementVinarie
         {
             if (ClientSelectat != null)
             {
-                db.Clienti.Remove(ClientSelectat);
-                db.SaveChanges();
-                ClientiDG.ItemsSource = db.Clienti.ToList();
+               
+                    if (db.Rezervari.Any(x => x.Client == ClientSelectat))
+                    {
+                        MessageBoxResult result = MessageBox.Show("Stergerea dată va provoca ștergerea rândurilor din tabelul rezervari", "Confirmation", MessageBoxButton.OKCancel);
+
+                        if (result == MessageBoxResult.OK)
+                        {
+
+                        db.Clienti.Remove(ClientSelectat);
+                        db.SaveChanges();
+                        ClientiDG.ItemsSource = db.Clienti.ToList();
+
+                        CuloriDG.ItemsSource = db.Culori.ToList();
+                        AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                        CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                        ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                        ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                        SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                        ClientiDG.ItemsSource = db.Clienti.ToList();
+                        PacheteDG.ItemsSource = db.Pachete.ToList();
+                        RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                        VinuriDG.ItemsSource = db.Vinuri.ToList();
+                    }
+
+                    }
+                    else
+                    {
+                        db.Clienti.Remove(ClientSelectat);
+                        db.SaveChanges();
+                        ClientiDG.ItemsSource = db.Clienti.ToList();
+
+                        CuloriDG.ItemsSource = db.Culori.ToList();
+                        AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                        CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                        ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                        ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                        SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                        ClientiDG.ItemsSource = db.Clienti.ToList();
+                        PacheteDG.ItemsSource = db.Pachete.ToList();
+                        RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                        VinuriDG.ItemsSource = db.Vinuri.ToList();
+                    }
             }
             else
             {
@@ -644,6 +989,643 @@ namespace ManagementVinarie
         }
 
 
+        // //////////////////////////////////////////////////////
+
+        bool IsValidEmail(string email)
+        {
+            var trimmedEmail = email.Trim();
+
+            if (trimmedEmail.EndsWith("."))
+            {
+                return false; 
+            }
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == trimmedEmail;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        private void AdaugarePachetB_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            string DenumirePachet = DenumirePachetTB.Text;
+
+
+            decimal d;
+            if (String.IsNullOrEmpty(DenumirePachet)) { MessageBox.Show("Introduceți o valaoare în câmpul denumire"); return; }
+            if (String.IsNullOrEmpty(PretTB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul pret"); return; }
+            if (!decimal.TryParse(PretTB.Text, out d)) { MessageBox.Show("Introduceți o valaoare corespunzatoare in campul pentru pret"); return; }
+
+            if (String.IsNullOrEmpty(DescrierePachetTB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul descriere"); return; }
+            if (String.IsNullOrEmpty(DurataInOreTB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul durata in ore"); return; }
+            if (!decimal.TryParse(DurataInOreTB.Text, out d)) { MessageBox.Show("Introduceți o valaoare corespunzatoare in campul pentru durata in ore"); return; }
+            if (String.IsNullOrEmpty(SalaDegustareCB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul id sala degustare"); return; }
+
+            else
+            {
+                
+               
+                    
+                 //   SalaDegustare? sd= db.SaliDegustare.Find(Convert.ToInt32(SalaDegustareCB.Text));
+                    db.Pachete.Add(new Pachet { PachetDenumire = DenumirePachet, Descriere = DescrierePachetTB.Text, Pret = Convert.ToDecimal(PretTB.Text), DurataInOre = Convert.ToDecimal(DurataInOreTB.Text), SalaDegustare = (SalaDegustare) SalaDegustareCB.SelectedValue }) ;
+
+                    db.SaveChanges();
+
+                    PacheteDG.ItemsSource = db.Pachete.ToList();
+                
+            }
+        }
+
+
+
+        private void PacheteDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            PachetSelectat = (Pachet)PacheteDG.SelectedItem;
+            if (PachetSelectat != null)
+            {
+                DenumirePachetTB.Text = PachetSelectat.PachetDenumire;
+                DescrierePachetTB.Text = PachetSelectat.Descriere;
+                PretTB.Text = PachetSelectat.Pret.ToString();
+                DurataInOreTB.Text = PachetSelectat.DurataInOre.ToString();
+                SalaDegustareCB.SelectedValue = PachetSelectat.SalaDegustare;
+
+
+            }
+            else
+            {
+                DenumirePachetTB.Text = "";
+                DescrierePachetTB.Text = "";
+                PretTB.Text = "";
+                DurataInOreTB.Text = "";
+                SalaDegustareCB.Text = "";
+               
+
+            }
+
+        }
+
+        private void ModificarePachetB_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (PachetSelectat != null)
+            {
+                PachetSelectat.PachetDenumire = DenumirePachetTB.Text;
+                PachetSelectat.Descriere = DescrierePachetTB.Text;
+                PachetSelectat.Pret = decimal.Parse(PretTB.Text);
+                PachetSelectat.DurataInOre = decimal.Parse(DurataInOreTB.Text);
+                //SalaDegustare? sd = db.SaliDegustare.Find(Convert.ToInt32(SalaDegustareCB.Text));
+
+                PachetSelectat.SalaDegustare= (SalaDegustare) SalaDegustareCB.SelectedValue;
+
+
+
+                db.SaveChanges();
+                PacheteDG.ItemsSource = db.Pachete.ToList();
+            }
+            else
+            {
+                MessageBox.Show("Selectați clientul care va fi modificat");
+            }
+
+
+        }
+
+        private void StergerePachetB_Click(object sender, RoutedEventArgs e)
+        {
+            if (PachetSelectat != null)
+            {
+                if (db.Rezervari.Any(x => x.Pachet == PachetSelectat))
+                {
+                    MessageBoxResult result = MessageBox.Show("Stergerea dată va provoca ștergerea rândurilor din tabelul rezervari", "Confirmation", MessageBoxButton.OKCancel);
+
+                    if (result == MessageBoxResult.OK)
+                    {
+
+
+                        db.Pachete.Remove(PachetSelectat);
+                        db.SaveChanges();
+                        PacheteDG.ItemsSource = db.Pachete.ToList();
+
+                        CuloriDG.ItemsSource = db.Culori.ToList();
+                        AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                        CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                        ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                        ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                        SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                        ClientiDG.ItemsSource = db.Clienti.ToList();
+                        PacheteDG.ItemsSource = db.Pachete.ToList();
+                        RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                        VinuriDG.ItemsSource = db.Vinuri.ToList();
+                    }
+
+                }
+                else
+                {
+                    db.Pachete.Remove(PachetSelectat);
+                    db.SaveChanges();
+                    PacheteDG.ItemsSource = db.Pachete.ToList();
+
+                    CuloriDG.ItemsSource = db.Culori.ToList();
+                    AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                    CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                    ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                    ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                    SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                    ClientiDG.ItemsSource = db.Clienti.ToList();
+                    PacheteDG.ItemsSource = db.Pachete.ToList();
+                    RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                    VinuriDG.ItemsSource = db.Vinuri.ToList();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Selectați clienutl care va fi șters");
+
+            }
+        }
+        
+        //////////////////////////////////////////////////////////// initializare comboboxuri
+    
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //  MessageBox.Show("nu");
+            if (e.Source is TabControl)
+            {
+                //do work when tab is changed
+            
+            SalaDegustareCB.Items.Clear();
+            ClientCB.Items.Clear();
+            PachetCB.Items.Clear();
+            ClasificareCB.Items.Clear();
+
+            ZaharCB.Items.Clear();
+            CalitateCB.Items.Clear();
+            AlcoolCB.Items.Clear();
+            CuloareCB.Items.Clear();
+
+                
+
+            foreach (var s in db.SaliDegustare.ToList()) SalaDegustareCB.Items.Add(s);
+
+            foreach (var s in db.Clienti.ToList()) ClientCB.Items.Add(s);
+            foreach (var s in db.Pachete.ToList()) PachetCB.Items.Add(s);
+
+            foreach (var s in db.Culori.ToList()) CuloareCB.Items.Add(s);
+            foreach (var s in db.ContinuturiAlcool.ToList()) AlcoolCB.Items.Add(s);
+            foreach (var s in db.CalitatiStruguri.ToList()) CalitateCB.Items.Add(s);
+            foreach (var s in db.CantitatiZahar.ToList()) ZaharCB.Items.Add(s);
+
+            foreach (var s in db.Clasificari.ToList()) ClasificareCB.Items.Add(s);
+
+            }
+        }
+
+        private void SalaDegustareCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+            if (!comboBox.IsLoaded)
+                return;
+        }
+
+
+        // ///////////////////////////////////////////////////////////
+
+
+        private void AdaugareRezervareB_Click(object sender, RoutedEventArgs e)
+        {
+
+
+           
+
+
+
+            if (String.IsNullOrEmpty(PachetCB.Text)){ MessageBox.Show("Introduceți o valaoare în câmpul pachet"); }
+            if (String.IsNullOrEmpty(ClientCB.Text)){ MessageBox.Show("Introduceți o valaoare în câmpul client"); }
+            if (String.IsNullOrEmpty(DataRezervareDP.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul data si ora rezervarii"); }
+
+            else
+            {
+
+
+
+               // Pachet? p = db.Pachete.Find(Convert.ToInt32(PachetCB.Text));
+              //  Client? c = db.Clienti.Find(Convert.ToInt32(ClientCB.Text));
+              
+                db.Rezervari.Add(new Rezervare { Pachet = (Pachet)PachetCB.SelectedValue,Client= (Client)ClientCB.SelectedValue,DataOraRezervare= (DateTime)DataRezervareDP.SelectedDate});
+
+                db.SaveChanges();
+
+                RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+            }
+        }
+
+
+
+        private void RezervariDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RezervareSelectat = (Rezervare)RezervariDG.SelectedItem;
+            if (RezervareSelectat != null)
+            {
+                PachetCB.SelectedValue = RezervareSelectat.Pachet;
+                ClientCB.SelectedValue = RezervareSelectat.Client;
+                DataRezervareDP.Text = RezervareSelectat.DataOraRezervare.ToString();
+               
+             
+
+
+            }
+            else
+            {
+                PachetCB.Text = "";
+                ClientCB.Text = "";
+                DataRezervareDP.Text = "";
+
+
+
+            }
+
+        }
+
+        private void ModificareRezervareB_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (RezervareSelectat != null)
+            {
+
+
+
+              //  Client? c = db.Clienti.Find(Convert.ToInt32(ClientCB.Text));
+              //  Pachet? p = db.Pachete.Find(Convert.ToInt32(PachetCB.Text));
+
+                RezervareSelectat.Pachet = (Pachet)PachetCB.SelectedValue;
+                RezervareSelectat.Client = (Client)ClientCB.SelectedValue;
+                RezervareSelectat.DataOraRezervare =(DateTime) DataRezervareDP.SelectedDate;
+
+
+              
+
+
+
+                db.SaveChanges();
+                RezervariDG.ItemsSource = db.Rezervari.ToList();
+            }
+            else
+            {
+                MessageBox.Show("Selectați rezervarea care va fi modificata");
+            }
+
+
+        }
+
+        private void StergereRezervareB_Click(object sender, RoutedEventArgs e)
+        {
+            if (RezervareSelectat != null)
+            {
+                db.Rezervari.Remove(RezervareSelectat);
+                db.SaveChanges();
+                RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                CuloriDG.ItemsSource = db.Culori.ToList();
+                AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                ClientiDG.ItemsSource = db.Clienti.ToList();
+                PacheteDG.ItemsSource = db.Pachete.ToList();
+                RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                VinuriDG.ItemsSource = db.Vinuri.ToList();
+            }
+            else
+            {
+                MessageBox.Show("Selectați rezervarea care va fi ștersa");
+
+            }
+        }
+
+
+        // /////////////////////////////////////////////
+
+        private void AdaugareClasificareB_Click(object sender, RoutedEventArgs e)
+        {
+
+
+
+
+
+
+            if (String.IsNullOrEmpty(CuloareCB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul id culoare"); }
+            if (String.IsNullOrEmpty(ZaharCB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul id cantitate zahar"); }
+            if (String.IsNullOrEmpty(CalitateCB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul id calitate struguri"); }
+            if (String.IsNullOrEmpty(AlcoolCB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul continut alcool"); }
+
+            else
+            {
+
+
+
+              //  Culoare? c = db.Culori.Find(Convert.ToInt32(CuloareCB.Text));
+               // ContinutAlcool? a = db.ContinuturiAlcool.Find(Convert.ToInt32(AlcoolCB.Text));
+               // CantitateZahar? z = db.CantitatiZahar.Find(Convert.ToInt32(ZaharCB.Text));
+               // CalitateStruguri? st = db.CalitatiStruguri.Find(Convert.ToInt32(CalitateCB.Text));
+
+                db.Clasificari.Add(new Clasificare { Culoare =(Culoare)CuloareCB.SelectedValue, ContinutAlcool = (ContinutAlcool)AlcoolCB.SelectedValue, CantitateZahar = (CantitateZahar)ZaharCB.SelectedValue, CalitateStruguri = (CalitateStruguri) CalitateCB.SelectedValue }) ;
+
+                db.SaveChanges();
+
+                ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+            }
+        }
+
+
+
+        private void ClasificariDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+             ClasificareSelectat= (Clasificare)ClasificariDG.SelectedItem;
+            if (ClasificareSelectat != null)
+            {
+                CuloareCB.SelectedValue = ClasificareSelectat.Culoare;
+                AlcoolCB.SelectedValue = ClasificareSelectat.ContinutAlcool;
+                ZaharCB.SelectedValue = ClasificareSelectat.CantitateZahar;
+                CalitateCB.SelectedValue = ClasificareSelectat.CalitateStruguri;
+
+
+
+
+            }
+            else
+            {
+
+
+                CuloareCB.Text = "";
+                AlcoolCB.Text = "";
+                ZaharCB.Text = "";
+                CalitateCB.Text = "";
+
+            }
+
+        }
+
+        private void ModificareClasificareB_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (ClasificareSelectat != null)
+            {
+
+
+
+
+
+               // Culoare? c = db.Culori.Find(Convert.ToInt32(CuloareCB.Text));
+               // ContinutAlcool? a = db.ContinuturiAlcool.Find(Convert.ToInt32(AlcoolCB.Text));
+               // CantitateZahar? z = db.CantitatiZahar.Find(Convert.ToInt32(ZaharCB.Text));
+               // CalitateStruguri? st = db.CalitatiStruguri.Find(Convert.ToInt32(CalitateCB.Text));
+
+                ClasificareSelectat.Culoare = (Culoare) CuloareCB.SelectedValue;
+                ClasificareSelectat.ContinutAlcool = (ContinutAlcool) AlcoolCB.SelectedValue;
+                ClasificareSelectat.CantitateZahar = (CantitateZahar)ZaharCB.SelectedValue ;
+                ClasificareSelectat.CalitateStruguri = (CalitateStruguri)CalitateCB.SelectedValue;
+
+
+
+
+
+
+
+                db.SaveChanges();
+                ClasificariDG.ItemsSource = db.Clasificari.ToList();
+            }
+            else
+            {
+                MessageBox.Show("Selectați clasificarea care va fi modificata");
+            }
+
+
+        }
+
+        private void StergereClasificareB_Click(object sender, RoutedEventArgs e)
+        {
+            if (ClasificareSelectat != null)
+            {
+
+                if (db.Vinuri.Any(x => x.Clasificare == ClasificareSelectat))
+                {
+                    MessageBoxResult result = MessageBox.Show("Stergerea dată va provoca ștergerea rândurilor din tabelul vinuri", "Confirmation", MessageBoxButton.OKCancel);
+
+                    if (result == MessageBoxResult.OK)
+                    {
+                        db.Clasificari.Remove(ClasificareSelectat);
+                        db.SaveChanges();
+                        ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+                        CuloriDG.ItemsSource = db.Culori.ToList();
+                        AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                        CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                        ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                        ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                        SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                        ClientiDG.ItemsSource = db.Clienti.ToList();
+                        PacheteDG.ItemsSource = db.Pachete.ToList();
+                        RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                        VinuriDG.ItemsSource = db.Vinuri.ToList();
+                    }
+                    else
+                    {
+                        // User clicked "Cancel"
+                    }
+                }
+                else
+                {
+                    db.Clasificari.Remove(ClasificareSelectat);
+                    db.SaveChanges();
+                    ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+                    CuloriDG.ItemsSource = db.Culori.ToList();
+                    AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                    CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                    ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                    ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                    SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                    ClientiDG.ItemsSource = db.Clienti.ToList();
+                    PacheteDG.ItemsSource = db.Pachete.ToList();
+                    RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                    VinuriDG.ItemsSource = db.Vinuri.ToList();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Selectați clasificarea care va fi ștersa");
+
+            }
+        }
+
+
+
+
+        ///////////////////////////////////////////////////////////////////////
+
+        public bool DataValida(string dateTime)
+        {
+            string[] formats = { "MM/dd/yyyy " };
+            DateTime parsedDateTime;
+            return DateTime.TryParseExact(dateTime, formats, new CultureInfo("en-US"),
+                                           DateTimeStyles.None, out parsedDateTime);
+        }
+        private void AdaugareVinB_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            decimal d;int i;
+            if (VinIMG.Source == null) { MessageBox.Show("Introduceți o imagine în câmpul pentru imagine vin"); return; }
+           // if (!decimal.TryParse(CantitateVinTB.Text, out d)) { MessageBox.Show("Introduceți  în câmpul pentru imagine vin"); return; }
+            if (!int.TryParse(CantitateVinTB.Text, out i)) { MessageBox.Show("Introduceți  în câmpul pentru cantitate un numar natural"); return; }
+            if (DataFabricareDP.SelectedDate==null) { MessageBox.Show("Introduceți  în câmpul pentru data fabricarii o data "); return; }
+
+            if (String.IsNullOrEmpty(DenumireVinTB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul denumire vin"); }
+            else
+            {
+                
+                
+                   // Clasificare? c = db.Clasificari.Find(Convert.ToInt32(ClasificareCB.Text));
+
+                    if (AdaugaImagineVin) db.Vinuri.Add(new Vin { VinDenumire = DenumireVinTB.Text, Cantitate = Convert.ToInt32(CantitateVinTB.Text),Clasificare =(Clasificare) ClasificareCB.SelectedValue, DataProducerii= DateOnly.FromDateTime((DateTime)DataFabricareDP.SelectedDate), ImagineVin = ConvertImageSourceToByteArray(VinIMG.Source) });
+                    else db.Vinuri.Add(new Vin { VinDenumire = DenumireVinTB.Text, Cantitate = Convert.ToInt32(CantitateVinTB.Text), Clasificare = (Clasificare)ClasificareCB.SelectedValue, DataProducerii = DateOnly.FromDateTime((DateTime)DataFabricareDP.SelectedDate), ImagineVin = VinSelectat.ImagineVin});
+                    //  MessageBox.Show(BufferFromImage((BitmapImage)SalaIMG.Source).ToString());
+                    db.SaveChanges();
+
+                    VinuriDG.ItemsSource = db.Vinuri.ToList();
+                
+            }
+
+        }
+
+
+
+        private void VinuriDG_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            VinSelectat = (Vin)VinuriDG.SelectedItem;
+            if (VinSelectat != null)
+            {
+                DenumireVinTB.Text = VinSelectat.VinDenumire;
+                CantitateVinTB.Text = VinSelectat.Cantitate.ToString();
+                DataFabricareDP.SelectedDate = VinSelectat.DataProducerii.ToDateTime(new TimeOnly(11,11));
+                ClasificareCB.SelectedValue = VinSelectat.Clasificare;
+                VinIMG.Source = LoadImageFromByteArray(VinSelectat.ImagineVin);
+                AdaugaImagineVin = false;
+            }
+            else
+            {
+
+                DenumireVinTB.Text ="";
+                CantitateVinTB.Text = "";
+                DataFabricareDP.Text = "";
+                ClasificareCB.Text = "";
+                VinIMG.Source = null;
+                AdaugaImagineVin = false;
+
+            }
+
+        }
+
+        private void ModificareVinB_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (VinSelectat != null)
+            {
+                 VinSelectat.VinDenumire= DenumireVinTB.Text;
+                VinSelectat.Cantitate =Convert.ToInt32(CantitateVinTB.Text);
+                VinSelectat.DataProducerii = DateOnly.FromDateTime((DateTime)DataFabricareDP.SelectedDate);
+
+              //  Clasificare? c = db.Clasificari.Find(Convert.ToInt32(ClasificareCB.Text));
+
+                VinSelectat.Clasificare =(Clasificare) ClasificareCB.SelectedValue;
+
+            if(AdaugaImagineVin)    VinSelectat.ImagineVin = ConvertImageSourceToByteArray(VinIMG.Source);
+
+
+                db.SaveChanges();
+                VinuriDG.ItemsSource = db.Vinuri.ToList();
+                AdaugaImagineVin = false;
+            }
+            else
+            {
+                MessageBox.Show("Selectați clientul care va fi modificat");
+            }
+
+
+        }
+
+        private void StergereVinB_Click(object sender, RoutedEventArgs e)
+        {
+            if (VinSelectat != null)
+            {
+                db.Vinuri.Remove(VinSelectat);
+                db.SaveChanges();
+                VinuriDG.ItemsSource = db.Vinuri.ToList();
+
+                CuloriDG.ItemsSource = db.Culori.ToList();
+                AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
+                CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
+                ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
+                ClasificariDG.ItemsSource = db.Clasificari.ToList();
+
+
+
+                SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                ClientiDG.ItemsSource = db.Clienti.ToList();
+                PacheteDG.ItemsSource = db.Pachete.ToList();
+                RezervariDG.ItemsSource = db.Rezervari.ToList();
+
+                VinuriDG.ItemsSource = db.Vinuri.ToList();
+            }
+            else
+            {
+                MessageBox.Show("Selectați clienutl care va fi șters");
+
+            }
+        }
+
+        private void AdaugareImagineVinB_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                Uri fileUri = new Uri(openFileDialog.FileName);
+
+                VinIMG.Source = new BitmapImage(fileUri);
+
+
+
+            }
+            AdaugaImagineVin = true;
+        }
     }
 
 }

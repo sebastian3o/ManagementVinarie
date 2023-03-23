@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManagementVinarie.Models.Vin
+namespace ManagementVinarie.Models.Vin_
 {
-    public class ClasificareVin
+    public class Clasificare
     {
         [Key]
-        public int ClasificareVinId { set; get; }
+        public int ClasificareId { set; get; }
 
         public Culoare Culoare { set; get; }
         public CalitateStruguri CalitateStruguri{set;get;}
@@ -18,6 +18,11 @@ namespace ManagementVinarie.Models.Vin
         public CantitateZahar CantitateZahar { set; get; }
 
         public ContinutAlcool ContinutAlcool { set; get; }
+
+        public override string ToString()
+        {
+            return ClasificareId.ToString();
+        }
     }
 
 }

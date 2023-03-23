@@ -21,5 +21,10 @@ namespace ManagementVinarie.Models.Servicii
 
         public SalaDegustare SalaDegustare { get; set; }
 
+        public override string ToString()
+        {
+            return PachetId+" "+PachetDenumire;
+        }
+
     }
 }

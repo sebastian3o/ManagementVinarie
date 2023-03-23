@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManagementVinarie.Models.Vin
+namespace ManagementVinarie.Models.Vin_
 {
     public class Vin
     {
@@ -15,10 +15,10 @@ namespace ManagementVinarie.Models.Vin
         public string VinDenumire { set; get; }
         public int Cantitate { set; get; }
 
-        [Column(TypeName = "ntext")]
-        public string Descriere { set; get; }
+        
+        public byte[] ImagineVin { set; get; }
 
-        public ClasificareVin ClasificareVin{get;set;}
+        public Clasificare Clasificare{get;set;}
 
         public DateOnly DataProducerii { get; set; }
 
