@@ -16,7 +16,7 @@ namespace ManagementVinarie.Models.Servicii
         public string Nume { set; get; }
         public string Prenume { set; get; }
 
-        public DateOnly DataNasterii { set; get;}
+     public DateOnly DataNasterii { set; get;}
 
         public string Gen { set; get; }
         public string Telefon { set; get; }

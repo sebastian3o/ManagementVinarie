@@ -1428,13 +1428,12 @@
                         </Grid.RowDefinitions>
                         <Image Width="60" Height="60" Source="Images/ic_cautare.png"></Image>
 
-                        <TextBlock TextAlignment="Center" Width="80" Background="#231858" Text="Căutare" Grid.Row="1" FontSize="16"  HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0"  FontWeight="Bold"/>
+                        <TextBlock TextAlignment="Center" Width="80" Background="#231858" Text="Interogări" Grid.Row="1" FontSize="16"  HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,0,0,0"  FontWeight="Bold"/>
                     </Grid>
 
                 </TabItem.Header>
 
-
-
+                
                 <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -1465,7 +1464,7 @@
                         HeadersVisibility="Column"
                        
                         Grid.Column="0" 
-                        Grid.RowSpan="4"
+                        Grid.RowSpan="8"
                        
                         >
 
@@ -1489,15 +1488,52 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
+                        
+                        <Viewbox Margin="0,0,0,10" Grid.ColumnSpan="4" Stretch="Fill">
+                        <Button Click="Button_Click_1" Content="Pachetele si numele salii de degustare asociate acestora"></Button>
+                        </Viewbox>
 
-                      
+                        <Viewbox Margin="0,10,0,10" Grid.Row="1" Grid.ColumnSpan="4" Stretch="Fill">
+                            <Button x:Name="i2" Click="i2_Click" Content="Numele clientilor si denumirea pachetului la care au rezervat"></Button>
+                        </Viewbox>
+
+                        <Viewbox Margin="0,10,0,10" Grid.Row="2" Grid.ColumnSpan="4" Stretch="Fill">
+                            <Button x:Name="i3" Click="i3_Click"  Content="Numele si denumirea clasificarii a fiecarui vin"></Button>
+                        </Viewbox>
+
+                        <Viewbox Margin="0,10,0,10" Grid.Row="3" Grid.ColumnSpan="4" Stretch="Fill">
+                            <Button x:Name="i4" Click="i4_Click"  Content="Denumirea pachetelor si data rezervarii acestora"></Button>
+                        </Viewbox>
+
+                        <Viewbox Margin="0,10,0,10" Grid.Row="4" Grid.ColumnSpan="4" Stretch="Fill">
+                            <Button x:Name="i5" Click="i5_Click"  Content="Numele clientilor, data nasterii si denumirea salii de degustare la care au rezervat"></Button>
+                        </Viewbox>
+
+                        <Viewbox Margin="0,10,0,10" Grid.Row="5" Grid.ColumnSpan="4" Stretch="Fill">
+                            <Button x:Name="i6" Click="i6_Click"  Content="Gruparea clienților după genul lor și numărarea numărului de clienți din fiecare grup"></Button>
+                        </Viewbox>
+                        <Viewbox Margin="0,10,0,10" Grid.Row="6" Grid.ColumnSpan="4" Stretch="Fill">
+                            <Button x:Name="i7" Click="i7_Click"  Content="Gruparea vinurilor după calitatea strugurilor din clasificarea lor și calcularea cantitatii medii al vinurilor"></Button>
+                        </Viewbox>
+                        <Viewbox Margin="0,10,0,10" Grid.Row="7" Grid.ColumnSpan="4" Stretch="Fill">
+                            <Button x:Name="i8" Click="i8_Click"  Content="Gruparea rezervărilor după ziua   rezervării și numărarea lor"></Button>
+                        </Viewbox>
+                        <Viewbox Margin="0,10,0,10" Grid.Row="8" Grid.ColumnSpan="4" Stretch="Fill">
+                            <Button x:Name="i9" Click="i9_Click"  Content="Totalizarea cantității de vin produs în ultimii 10 ani"></Button>
+                        </Viewbox>
+                        <Viewbox Margin="0,10,0,10" Grid.Row="9" Grid.ColumnSpan="4" Stretch="Fill">
+                            <Button x:Name="i10" Click="i10_Click"  Content="Numarul de clienti si varsta lor medie"></Button>
+                        </Viewbox>
                     </Grid>
 
                 </Grid>

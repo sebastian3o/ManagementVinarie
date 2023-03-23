@@ -20,6 +20,8 @@ using System.IO;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Windows.Controls.Primitives;
+using Microsoft.EntityFrameworkCore;
 
 namespace ManagementVinarie
 {
@@ -173,7 +175,7 @@ new Culoare { CuloareDenumire = "Culoare rubinie" }
 
             string DenumireCuloare = DenumireCuloareTB.Text;
 
-            if (String.IsNullOrEmpty(DenumireCuloare)) { MessageBox.Show("Introduceți o valaoare în câmpul denumire culoare"); }
+            if (String.IsNullOrEmpty(DenumireCuloare)) { MessageBox.Show("Introduceți o valaoare în câmpul denumire culoare"); return; }
             else
             {
                 if (DenumireCuloare.Any(char.IsDigit))
@@ -214,6 +216,8 @@ new Culoare { CuloareDenumire = "Culoare rubinie" }
 
             if (CuloareSelectata != null)
             {
+                if (String.IsNullOrEmpty(DenumireCuloareTB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul denumire culoare");return; }
+
                 CuloareSelectata.CuloareDenumire = DenumireCuloareTB.Text;
                 db.SaveChanges();
                 CuloriDG.ItemsSource = db.Culori.ToList();
@@ -331,6 +335,8 @@ new Culoare { CuloareDenumire = "Culoare rubinie" }
 
             if (AlcoolSelectat != null)
             {
+                if (String.IsNullOrEmpty(AlcoolCB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul denumire culoare"); }
+
                 AlcoolSelectat.ContinutAlcoolDenumire = DenumireAlcoolTB.Text;
                 db.SaveChanges();
                 AlcoolDG.ItemsSource = db.ContinuturiAlcool.ToList();
@@ -449,6 +455,8 @@ new Culoare { CuloareDenumire = "Culoare rubinie" }
 
             if (CalitateSelectat != null)
             {
+                if (String.IsNullOrEmpty(CalitateCB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul denumire calității strugurilor"); }
+
                 CalitateSelectat.CalitateStruguriNume = DenumireCalitateTB.Text;
                 db.SaveChanges();
                 CalitatiDG.ItemsSource = db.CalitatiStruguri.ToList();
@@ -565,6 +573,8 @@ new Culoare { CuloareDenumire = "Culoare rubinie" }
 
             if (ZaharSelectat != null)
             {
+                if (String.IsNullOrEmpty(ZaharCB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul denumire cantității zahărului"); }
+
                 ZaharSelectat.CantitateZaharDenumire = DenumireZaharTB.Text;
                 db.SaveChanges();
                 ZaharDG.ItemsSource = db.CantitatiZahar.ToList();
@@ -733,12 +743,24 @@ new Culoare { CuloareDenumire = "Culoare rubinie" }
 
             if (SalaSelectat != null)
             {
-                SalaSelectat.SalaDegustareDenumire = DenumireSalaTB.Text;
-                if (AdaugaImagine) SalaSelectat.Foto = ConvertImageSourceToByteArray(SalaIMG.Source);
-                db.SaveChanges();
-                SaliDG.ItemsSource = db.SaliDegustare.ToList();
-                AdaugaImagine = false;
+                if (SalaIMG.Source == null) { MessageBox.Show("Introduceți o imagine în c85âmpul pentru imagine sală"); return; }
 
+                if (String.IsNullOrEmpty(SalaDegustareCB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul denumire sala"); }
+                else
+                {
+                    if (String.IsNullOrEmpty(DescriereSalaTB.Text)) MessageBox.Show("Introduceți o valaoare în câmpul denumire sala");
+                    else
+                        if (SalaDegustareCB.Text.Any(char.IsDigit))
+                    { MessageBox.Show("Denumirea sălii nu poate conține cifre"); }
+                    else
+                    {
+                        SalaSelectat.SalaDegustareDenumire = DenumireSalaTB.Text;
+                        if (AdaugaImagine) SalaSelectat.Foto = ConvertImageSourceToByteArray(SalaIMG.Source);
+                        db.SaveChanges();
+                        SaliDG.ItemsSource = db.SaliDegustare.ToList();
+                        AdaugaImagine = false;
+                    }
+                }
             }
             else
             {
@@ -905,6 +927,14 @@ public static bool IsPhoneNbr(string number)
 
             if (ClientSelectat != null)
             {
+
+                if (String.IsNullOrEmpty(NumeClientTB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul nume"); return; }
+                if (String.IsNullOrEmpty(PrenumeClientTB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul prenume"); return; }
+                if (String.IsNullOrEmpty(DataNastereClientDP.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul data nasterii"); return; }
+                if (String.IsNullOrEmpty(EmailClientTB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul email"); return; }
+                if (!IsValidEmail(EmailClientTB.Text)) { MessageBox.Show("Introduceți o valaoare valida în câmpul email"); return; }
+                if (!IsPhoneNbr(TelefonClientTB.Text)) { MessageBox.Show("Introduceți o valaoare valida în câmpul telefon"); return; }
+
                 ClientSelectat.Nume = NumeClientTB.Text;
 
                 ClientSelectat.Prenume =PrenumeClientTB.Text;
@@ -1048,6 +1078,7 @@ public static bool IsPhoneNbr(string number)
             PachetSelectat = (Pachet)PacheteDG.SelectedItem;
             if (PachetSelectat != null)
             {
+
                 DenumirePachetTB.Text = PachetSelectat.PachetDenumire;
                 DescrierePachetTB.Text = PachetSelectat.Descriere;
                 PretTB.Text = PachetSelectat.Pret.ToString();
@@ -1074,6 +1105,16 @@ public static bool IsPhoneNbr(string number)
 
             if (PachetSelectat != null)
             {
+                decimal d;
+                if (String.IsNullOrEmpty(DenumirePachetTB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul denumire"); return; }
+                if (String.IsNullOrEmpty(PretTB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul pret"); return; }
+                if (!decimal.TryParse(PretTB.Text, out d)) { MessageBox.Show("Introduceți o valaoare corespunzatoare in campul pentru pret"); return; }
+
+                if (String.IsNullOrEmpty(DescrierePachetTB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul descriere"); return; }
+                if (String.IsNullOrEmpty(DurataInOreTB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul durata in ore"); return; }
+                if (!decimal.TryParse(DurataInOreTB.Text, out d)) { MessageBox.Show("Introduceți o valaoare corespunzatoare in campul pentru durata in ore"); return; }
+                if (String.IsNullOrEmpty(SalaDegustareCB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul id sala degustare"); return; }
+
                 PachetSelectat.PachetDenumire = DenumirePachetTB.Text;
                 PachetSelectat.Descriere = DescrierePachetTB.Text;
                 PachetSelectat.Pret = decimal.Parse(PretTB.Text);
@@ -1212,9 +1253,12 @@ public static bool IsPhoneNbr(string number)
 
 
 
-            if (String.IsNullOrEmpty(PachetCB.Text)){ MessageBox.Show("Introduceți o valaoare în câmpul pachet"); }
-            if (String.IsNullOrEmpty(ClientCB.Text)){ MessageBox.Show("Introduceți o valaoare în câmpul client"); }
-            if (String.IsNullOrEmpty(DataRezervareDP.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul data si ora rezervarii"); }
+            if (String.IsNullOrEmpty(PachetCB.Text)){ MessageBox.Show("Introduceți o valaoare în câmpul pachet");return; }
+            if (String.IsNullOrEmpty(ClientCB.Text)){ MessageBox.Show("Introduceți o valaoare în câmpul client"); return; }
+            if (String.IsNullOrEmpty(DataRezervareDP.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul data si ora rezervarii"); return; }
+            string inputDate = DataRezervareDP.SelectedDate?.ToString("dd/MM/yyyy");
+
+            if (!DateTime.TryParseExact(inputDate, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out _)) { MessageBox.Show("Introduceți o valaoare valida în câmpul data si ora rezervarii"); return; }
 
             else
             {
@@ -1266,10 +1310,13 @@ public static bool IsPhoneNbr(string number)
             if (RezervareSelectat != null)
             {
 
+                if (String.IsNullOrEmpty(PachetCB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul pachet"); return; }
+                if (String.IsNullOrEmpty(ClientCB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul client"); return; }
+                if (String.IsNullOrEmpty(DataRezervareDP.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul data si ora rezervarii"); return; }
+                string inputDate = DataRezervareDP.SelectedDate?.ToString("dd/MM/yyyy");
 
-
-              //  Client? c = db.Clienti.Find(Convert.ToInt32(ClientCB.Text));
-              //  Pachet? p = db.Pachete.Find(Convert.ToInt32(PachetCB.Text));
+                //  Client? c = db.Clienti.Find(Convert.ToInt32(ClientCB.Text));
+                //  Pachet? p = db.Pachete.Find(Convert.ToInt32(PachetCB.Text));
 
                 RezervareSelectat.Pachet = (Pachet)PachetCB.SelectedValue;
                 RezervareSelectat.Client = (Client)ClientCB.SelectedValue;
@@ -1391,14 +1438,17 @@ public static bool IsPhoneNbr(string number)
             if (ClasificareSelectat != null)
             {
 
+                if (String.IsNullOrEmpty(CuloareCB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul id culoare"); }
+                if (String.IsNullOrEmpty(ZaharCB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul id cantitate zahar"); }
+                if (String.IsNullOrEmpty(CalitateCB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul id calitate struguri"); }
+                if (String.IsNullOrEmpty(AlcoolCB.Text)) { MessageBox.Show("Introduceți o valaoare în câmpul continut alcool"); }
 
 
 
-
-               // Culoare? c = db.Culori.Find(Convert.ToInt32(CuloareCB.Text));
-               // ContinutAlcool? a = db.ContinuturiAlcool.Find(Convert.ToInt32(AlcoolCB.Text));
-               // CantitateZahar? z = db.CantitatiZahar.Find(Convert.ToInt32(ZaharCB.Text));
-               // CalitateStruguri? st = db.CalitatiStruguri.Find(Convert.ToInt32(CalitateCB.Text));
+                // Culoare? c = db.Culori.Find(Convert.ToInt32(CuloareCB.Text));
+                // ContinutAlcool? a = db.ContinuturiAlcool.Find(Convert.ToInt32(AlcoolCB.Text));
+                // CantitateZahar? z = db.CantitatiZahar.Find(Convert.ToInt32(ZaharCB.Text));
+                // CalitateStruguri? st = db.CalitatiStruguri.Find(Convert.ToInt32(CalitateCB.Text));
 
                 ClasificareSelectat.Culoare = (Culoare) CuloareCB.SelectedValue;
                 ClasificareSelectat.ContinutAlcool = (ContinutAlcool) AlcoolCB.SelectedValue;
@@ -1559,7 +1609,13 @@ public static bool IsPhoneNbr(string number)
 
             if (VinSelectat != null)
             {
-                 VinSelectat.VinDenumire= DenumireVinTB.Text;
+                decimal d; int i;
+                if (VinIMG.Source == null) { MessageBox.Show("Introduceți o imagine în câmpul pentru imagine vin"); return; }
+                // if (!decimal.TryParse(CantitateVinTB.Text, out d)) { MessageBox.Show("Introduceți  în câmpul pentru imagine vin"); return; }
+                if (!int.TryParse(CantitateVinTB.Text, out i)) { MessageBox.Show("Introduceți  în câmpul pentru cantitate un numar natural"); return; }
+                if (DataFabricareDP.SelectedDate == null) { MessageBox.Show("Introduceți  în câmpul pentru data fabricarii o data "); return; }
+
+                VinSelectat.VinDenumire= DenumireVinTB.Text;
                 VinSelectat.Cantitate =Convert.ToInt32(CantitateVinTB.Text);
                 VinSelectat.DataProducerii = DateOnly.FromDateTime((DateTime)DataFabricareDP.SelectedDate);
 
@@ -1625,6 +1681,126 @@ public static bool IsPhoneNbr(string number)
 
             }
             AdaugaImagineVin = true;
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var q= from p in db.Pachete
+ join s in db.SaliDegustare on p.SalaDegustare equals s
+                                                select new
+                                                {
+                                                    PachetDenumire = p.PachetDenumire,
+                                                    SalaDegustareDenumire = s.SalaDegustareDenumire
+                                                };
+
+            DG.ItemsSource = q.ToList();
+        }
+
+        private void i2_Click(object sender, RoutedEventArgs e)
+        {
+            var rezervariClientiPachete = from r in db.Rezervari
+                                          join c in db.Clienti on r.Client equals c
+                                          join p in db.Pachete on r.Pachet equals p
+                                          select new
+                                          {
+                                              NumeClient = c.Nume + " " + c.Prenume,
+                                              PachetDenumire = p.PachetDenumire
+                                          };
+
+            DG.ItemsSource = rezervariClientiPachete.ToList();
+        }
+
+        private void i3_Click(object sender, RoutedEventArgs e)
+        {
+            var vinuriCuClasificare = from v in db.Vinuri
+                                      join c in db.Clasificari on v.Clasificare equals c
+                                      select new
+                                      {
+                                          VinDenumire = v.VinDenumire,
+                                          ClasificareDenumire = c.Culoare.CuloareDenumire + " " +
+                                                                c.CalitateStruguri.CalitateStruguriNume + " " +
+                                                                c.CantitateZahar.CantitateZaharDenumire + " " +
+                                                                c.ContinutAlcool.ContinutAlcoolDenumire
+                                      };
+            DG.ItemsSource = vinuriCuClasificare.ToList();
+
+        }
+
+        private void i4_Click(object sender, RoutedEventArgs e)
+        {
+            var rezervariPachete = from r in db.Rezervari
+                                   join p in db.Pachete on r.Pachet equals p
+                                   select new
+                                   {
+                                       PachetDenumire = p.PachetDenumire,
+                                       DataOraRezervare = r.DataOraRezervare
+                                   };
+
+            DG.ItemsSource = rezervariPachete.ToList();
+
+        }
+
+        private void i5_Click(object sender, RoutedEventArgs e)
+        {
+            var clientiCuSalaDeDegustare = from c in db.Clienti
+                                           join r in db.Rezervari on c equals r.Client
+                                           join s in db.SaliDegustare on r.Pachet.SalaDegustare equals s
+                                           select new
+                                           {
+                                               NumeClient = c.Nume + " " + c.Prenume,
+                                               DataNasterii = c.DataNasterii,
+                                               SalaDegustareDenumire = s.SalaDegustareDenumire
+                                           };
+
+
+            DG.ItemsSource = clientiCuSalaDeDegustare.ToList();
+
+        }
+
+        private void i6_Click(object sender, RoutedEventArgs e)
+        {
+            var grupuriClienti = from c in db.Clienti
+                                 group c by c.Gen into g
+                                 select new { Gen = g.Key, Numar = g.Count() };
+
+            DG.ItemsSource = grupuriClienti.ToList();
+
+        }
+
+        private void i7_Click(object sender, RoutedEventArgs e)
+        {
+            var grupuriVinuri = from w in db.Vinuri
+                                group w by w.Clasificare.CalitateStruguri.CalitateStruguriNume into g
+                                select new { Calitate = g.Key, CantitateMedie = g.Average(w => w.Cantitate) };
+            DG.ItemsSource = grupuriVinuri.ToList();
+
+        }
+
+        private void i8_Click(object sender, RoutedEventArgs e)
+        {
+            var grupuriRezervari = from r in db.Rezervari
+                                   group r by r.DataOraRezervare.DayOfWeek into g
+                                   select new { Ziua = g.Key, Numar = g.Count() };
+            DG.ItemsSource = grupuriRezervari.ToList();
+
+        }
+
+        private void i9_Click(object sender, RoutedEventArgs e)
+        {
+            DateOnly dataLimita =DateOnly.FromDateTime(DateTime.Now.AddYears(-10));
+            int cantitateTotala = db.Vinuri.Where(v => v.DataProducerii >= dataLimita)
+                                             .Sum(v => v.Cantitate);
+            MessageBox.Show("În ultimii 10 ani s-au produs " + cantitateTotala + "  sticle vin.");
+        }
+
+        private void i10_Click(object sender, RoutedEventArgs e)
+        {
+           
+            var varstaTot = db.Clienti.Sum(c => (DateTime.Now.Year - c.DataNasterii.Year));
+            var NrClienti = db.Clienti.Count();
+            var VarstMed = NrClienti > 0 ? varstaTot / NrClienti : 0;
+
+            MessageBox.Show($"Numărul de clienți : {NrClienti}, vârsta medie: {VarstMed}");
         }
     }
 
